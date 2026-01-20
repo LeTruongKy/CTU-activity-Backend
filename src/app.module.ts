@@ -19,6 +19,17 @@ import { User } from './modules/users/entities/user.entity';
 import { Unit } from './modules/units/entities/unit.entity';
 import { Activity } from './modules/activities/entities/activity.entity';
 import { Registration } from './modules/registrations/entities/registration.entity';
+import { ActivityCategory } from './modules/activity_categories/entities/activity_category.entity';
+import { Role } from './modules/roles/entities/role.entity';
+import { Permission } from './modules/permissions/entities/permission.entity';
+import { RolePermission } from './modules/role_permissions/entities/role_permission.entity';
+import { UserRole } from './modules/user_roles/entities/user_role.entity';
+import { ActivityCategoriesModule } from './modules/activity_categories/activity_categories.module';
+import { RolesModule } from './modules/roles/roles.module';
+import { PermissionsModule } from './modules/permissions/permissions.module';
+import { RolePermissionsModule } from './modules/role_permissions/role_permissions.module';
+import { UserRolesModule } from './modules/user_roles/user_roles.module';
+import { DatabasesModule } from './databases/databases.module';
 
 @Module({
   imports: [
@@ -39,7 +50,12 @@ import { Registration } from './modules/registrations/entities/registration.enti
           User,
           Unit,
           Activity,
+          ActivityCategory,
           Registration,
+          Role,
+          Permission,
+          RolePermission,
+          UserRole,
           // Add more entities as they are implemented
         ],
         synchronize: true,
@@ -47,16 +63,22 @@ import { Registration } from './modules/registrations/entities/registration.enti
     }),
     UnitsModule,
     UsersModule,
+    RolesModule,
+    PermissionsModule,
+    RolePermissionsModule,
+    UserRolesModule,
     UnitTenuresModule,
     CriteriaGroupsModule,
     CriteriaModule,
     ActivitiesModule,
+    ActivityCategoriesModule,
     ActivityCriteriaModule,
     RegistrationsModule,
     TagsModule,
     UserInterestsModule,
     ActivityTagsModule,
     InteractionLogsModule,
+    DatabasesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

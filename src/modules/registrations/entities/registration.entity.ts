@@ -13,9 +13,9 @@ export class Registration {
   @ManyToOne(() => Activity, (activity) => activity.registrations)
   activity: Activity;
 
-  @Column({ nullable: true })
-  checkInAt: Date;
+  @Column({ type: 'timestamp', nullable: true })
+  checkInAt: Date | null;
 
-  @Column({ nullable: true })
-  proofUrl: string;
+  @Column({ type: 'varchar', length: 500, nullable: true })
+  proofUrl: string | null;
 }
