@@ -6,6 +6,7 @@ import {
   OneToMany,
   CreateDateColumn,
   UpdateDateColumn,
+  DeleteDateColumn,
   JoinColumn,
 } from 'typeorm';
 import { Unit } from '../../units/entities/unit.entity';
@@ -26,17 +27,20 @@ export class User {
   @Column({ type: 'varchar', length: 255, nullable: true })
   fullName: string | null;
 
-  @Column({ type: 'varchar', nullable: true })
+  @Column({ type: 'varchar', nullable: true, select: false })
   passwordHash: string | null;
 
   @Column({ type: 'varchar', length: 500, nullable: true })
   avatarUrl: string | null;
 
-  @Column({ type: 'varchar', length: 50, default: 'ACTIVE' })
-  status: string;
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  major: string | null;
 
-  @Column({ type: 'uuid', nullable: true })
-  unitId: string | null;
+  @Column({ type: 'enum', enum: ['ACTIVE', 'BANNED'], default: 'ACTIVE' })
+  status: 'ACTIVE' | 'BANNED';
+
+  @Column({ type: 'integer', nullable: true })
+  unitId: number | null;
 
   @ManyToOne(() => Unit, (unit) => unit.users, { nullable: true })
   @JoinColumn({ name: 'unitId' })
@@ -53,4 +57,7 @@ export class User {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 }

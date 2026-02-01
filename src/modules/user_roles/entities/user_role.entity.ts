@@ -16,14 +16,14 @@ export class UserRole {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
-  @Column({ type: 'uuid' })
+  @Column({ type: 'uuid', nullable: false })
   userId: string;
 
-  @Column({ type: 'integer' })
+  @Column({ type: 'integer', nullable: false })
   roleId: number;
 
-  @Column({ type: 'uuid', nullable: true })
-  unitId: string | null;
+  @Column({ type: 'integer', nullable: true })
+  unitId: number | null;
 
   @ManyToOne(() => User, (user) => user.userRoles, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'userId' })

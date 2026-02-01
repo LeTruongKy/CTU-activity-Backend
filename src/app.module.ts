@@ -15,6 +15,9 @@ import { TagsModule } from './modules/tags/tags.module';
 import { UserInterestsModule } from './modules/user_interests/user_interests.module';
 import { ActivityTagsModule } from './modules/activity_tags/activity_tags.module';
 import { InteractionLogsModule } from './modules/interaction_logs/interaction_logs.module';
+import { ActivityApprovalsModule } from './modules/activity_approvals/activity_approvals.module';
+import { PostsModule } from './modules/posts/posts.module';
+import { AttachmentsModule } from './modules/attachments/attachments.module';
 import { User } from './modules/users/entities/user.entity';
 import { Unit } from './modules/units/entities/unit.entity';
 import { Activity } from './modules/activities/entities/activity.entity';
@@ -24,6 +27,17 @@ import { Role } from './modules/roles/entities/role.entity';
 import { Permission } from './modules/permissions/entities/permission.entity';
 import { RolePermission } from './modules/role_permissions/entities/role_permission.entity';
 import { UserRole } from './modules/user_roles/entities/user_role.entity';
+import { UnitTenure } from './modules/unit_tenures/entities/unit_tenure.entity';
+import { Criterion } from './modules/criteria/entities/criterion.entity';
+import { CriteriaGroup } from './modules/criteria_groups/entities/criteria_group.entity';
+import { ActivityCriterion } from './modules/activity_criteria/entities/activity_criterion.entity';
+import { Tag } from './modules/tags/entities/tag.entity';
+import { ActivityTag } from './modules/activity_tags/entities/activity_tag.entity';
+import { UserInterest } from './modules/user_interests/entities/user_interest.entity';
+import { InteractionLog } from './modules/interaction_logs/entities/interaction_log.entity';
+import { ActivityApproval } from './modules/activity_approvals/entities/activity_approval.entity';
+import { Post } from './modules/posts/entities/post.entity';
+import { Attachment } from './modules/attachments/entities/attachment.entity';
 import { ActivityCategoriesModule } from './modules/activity_categories/activity_categories.module';
 import { RolesModule } from './modules/roles/roles.module';
 import { PermissionsModule } from './modules/permissions/permissions.module';
@@ -49,14 +63,24 @@ import { DatabasesModule } from './databases/databases.module';
         entities: [
           User,
           Unit,
+          UnitTenure,
           Activity,
           ActivityCategory,
+          ActivityApproval,
           Registration,
           Role,
           Permission,
           RolePermission,
           UserRole,
-          // Add more entities as they are implemented
+          Criterion,
+          CriteriaGroup,
+          ActivityCriterion,
+          Tag,
+          ActivityTag,
+          UserInterest,
+          InteractionLog,
+          Post,
+          Attachment,
         ],
         synchronize: true,
       }),
@@ -73,11 +97,14 @@ import { DatabasesModule } from './databases/databases.module';
     ActivitiesModule,
     ActivityCategoriesModule,
     ActivityCriteriaModule,
+    ActivityApprovalsModule,
     RegistrationsModule,
     TagsModule,
     UserInterestsModule,
     ActivityTagsModule,
     InteractionLogsModule,
+    PostsModule,
+    AttachmentsModule,
     DatabasesModule,
   ],
   controllers: [AppController],

@@ -12,23 +12,21 @@ import { User } from '../../users/entities/user.entity';
 
 @Entity('units')
 export class Unit {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn('increment')
+  id: number;
 
-  @Column({ type: 'varchar', length: 255 })
+  @Column({ type: 'varchar', length: 255, nullable: false })
   name: string;
 
-  @Column({ type: 'varchar', length: 50 })
-  type: string; // e.g., 'LCH' or 'CH'
+  @Column({ 
+    type: 'enum',
+    enum: ['LCH', 'CH'],
+    default: 'CH'
+  })
+  type: 'LCH' | 'CH';
 
-  @Column({ type: 'varchar', length: 50, nullable: true })
-  code: string | null;
-
-  @Column({ type: 'text', nullable: true })
-  description: string | null;
-
-  @Column({ type: 'uuid', nullable: true })
-  parentId: string | null;
+  @Column({ type: 'integer', nullable: true })
+  parentId: number | null;
 
   @ManyToOne(() => Unit, (unit) => unit.children, { nullable: true })
   @JoinColumn({ name: 'parentId' })
