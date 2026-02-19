@@ -39,6 +39,9 @@ export class User {
   @Column({ type: 'enum', enum: ['ACTIVE', 'BANNED'], default: 'ACTIVE' })
   status: 'ACTIVE' | 'BANNED';
 
+  @Column({ type: 'text', nullable: true, select: false })
+  refreshToken: string | null;
+
   @Column({ type: 'integer', nullable: true })
   unitId: number | null;
 

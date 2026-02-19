@@ -28,6 +28,13 @@ export class UserRolesService {
     });
   }
 
+  async findByUserId(userId: string) {
+    return await this.userRoleRepository.findOne({
+      where: { userId },
+      relations: ['role', 'unit'],
+    });
+  }
+
   async remove(id: number) {
     await this.userRoleRepository.delete(id);
   }

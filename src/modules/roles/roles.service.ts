@@ -28,6 +28,13 @@ export class RolesService {
     });
   }
 
+  async findByName(name: string) {
+    return await this.roleRepository.findOne({
+      where: { name },
+      relations: ['rolePermissions'],
+    });
+  }
+
   async update(id: number, updateRoleDto: any) {
     await this.roleRepository.update(id, updateRoleDto);
     return await this.findOne(id);

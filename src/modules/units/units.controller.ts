@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { UnitsService } from './units.service';
 import { CreateUnitDto } from './dto/create-unit.dto';
 import { UpdateUnitDto } from './dto/update-unit.dto';
+import { Public } from '../../decorators/customize';
 
 @Controller('units')
 export class UnitsController {
@@ -12,9 +13,22 @@ export class UnitsController {
     return this.unitsService.create(createUnitDto);
   }
 
+  @Public()
   @Get()
-  findAll() {
-    return this.unitsService.findAll();
+  async findAll(@Query('hierarchy') hierarchy?: string) {
+    if (hierarchy === 'true') {
+      const data = await this.unitsService.findWithHierarchy();
+      return {
+        data,
+        total: data.length,
+      };
+    }
+
+    const data = await this.unitsService.findAll();
+    return {
+      data,
+      total: data.length,
+    };
   }
 
   @Get(':id')

@@ -9,8 +9,8 @@ export const INIT_USERS = [
     fullName: 'Admin CTU Activity',
     passwordHash: null, // Will be hashed by service
     avatarUrl: null,
-    status: 'ACTIVE',
-    unitId: '550e8400-e29b-41d4-a716-446655440001', // LCH
+    status: 'ACTIVE' as const,
+    unitId: 1, // LCH
   },
   // LCH user
   {
@@ -20,8 +20,8 @@ export const INIT_USERS = [
     fullName: 'Liên Chi Hội Sinh Viên Cần Thơ',
     passwordHash: null, // Will be hashed by service
     avatarUrl: null,
-    status: 'ACTIVE',
-    unitId: '550e8400-e29b-41d4-a716-446655440001', // LCH
+    status: 'ACTIVE' as const,
+    unitId: 1, // LCH
   },
   // CH users
   {
@@ -31,8 +31,8 @@ export const INIT_USERS = [
     fullName: 'Chi hội Tân Hoà',
     passwordHash: null, // Will be hashed by service
     avatarUrl: null,
-    status: 'ACTIVE',
-    unitId: '550e8400-e29b-41d4-a716-446655440002',
+    status: 'ACTIVE' as const,
+    unitId: 2,
   },
   {
     id: '550e8400-e29b-41d4-a716-556655440004',
@@ -41,8 +41,8 @@ export const INIT_USERS = [
     fullName: 'Chi hội Bình Thuỷ',
     passwordHash: null, // Will be hashed by service
     avatarUrl: null,
-    status: 'ACTIVE',
-    unitId: '550e8400-e29b-41d4-a716-446655440003',
+    status: 'ACTIVE' as const,
+    unitId: 3,
   },
   {
     id: '550e8400-e29b-41d4-a716-556655440005',
@@ -51,8 +51,8 @@ export const INIT_USERS = [
     fullName: 'Chi hội Cái Răng',
     passwordHash: null, // Will be hashed by service
     avatarUrl: null,
-    status: 'ACTIVE',
-    unitId: '550e8400-e29b-41d4-a716-446655440004',
+    status: 'ACTIVE' as const,
+    unitId: 4,
   },
   {
     id: '550e8400-e29b-41d4-a716-556655440006',
@@ -61,8 +61,8 @@ export const INIT_USERS = [
     fullName: 'Chi hội Kế Sách',
     passwordHash: null, // Will be hashed by service
     avatarUrl: null,
-    status: 'ACTIVE',
-    unitId: '550e8400-e29b-41d4-a716-446655440005',
+    status: 'ACTIVE' as const,
+    unitId: 5,
   },
   {
     id: '550e8400-e29b-41d4-a716-556655440007',
@@ -71,108 +71,8 @@ export const INIT_USERS = [
     fullName: 'Chi hội Mỹ Xuyên - Trần Đề',
     passwordHash: null, // Will be hashed by service
     avatarUrl: null,
-    status: 'ACTIVE',
-    unitId: '550e8400-e29b-41d4-a716-446655440006',
-  },
-  {
-    id: '550e8400-e29b-41d4-a716-556655440008',
-    studentCode: 'CH_CHAU_THANH_001',
-    email: 'CHSV_CHAU_THANH@gmail.com',
-    fullName: 'Chi hội Châu Thành',
-    passwordHash: null, // Will be hashed by service
-    avatarUrl: null,
-    status: 'ACTIVE',
-    unitId: '550e8400-e29b-41d4-a716-446655440007',
-  },
-  {
-    id: '550e8400-e29b-41d4-a716-556655440009',
-    studentCode: 'CH_NGA_BAY_001',
-    email: 'CHSV_NGA_BAY@gmail.com',
-    fullName: 'Chi hội Ngã Bảy',
-    passwordHash: null, // Will be hashed by service
-    avatarUrl: null,
-    status: 'ACTIVE',
-    unitId: '550e8400-e29b-41d4-a716-446655440008',
-  },
-  {
-    id: '550e8400-e29b-41d4-a716-556655440010',
-    studentCode: 'CH_VINH_CHAU_001',
-    email: 'CHSV_VINH_CHAU@gmail.com',
-    fullName: 'Chi hội Vĩnh Châu',
-    passwordHash: null, // Will be hashed by service
-    avatarUrl: null,
-    status: 'ACTIVE',
-    unitId: '550e8400-e29b-41d4-a716-446655440009',
-  },
-  {
-    id: '550e8400-e29b-41d4-a716-556655440011',
-    studentCode: 'CH_PHONG_DIEN_001',
-    email: 'CHSV_PHONG_DIEN@gmail.com',
-    fullName: 'Chi hội Phong Điền',
-    passwordHash: null, // Will be hashed by service
-    avatarUrl: null,
-    status: 'ACTIVE',
-    unitId: '550e8400-e29b-41d4-a716-446655440010',
-  },
-  {
-    id: '550e8400-e29b-41d4-a716-556655440012',
-    studentCode: 'CH_PHU_LOC_001',
-    email: 'CHSV_PHU_LOC@gmail.com',
-    fullName: 'Chi hội Phú Lộc',
-    passwordHash: null, // Will be hashed by service
-    avatarUrl: null,
-    status: 'ACTIVE',
-    unitId: '550e8400-e29b-41d4-a716-446655440011',
-  },
-  {
-    id: '550e8400-e29b-41d4-a716-556655440013',
-    studentCode: 'CH_NINH_KIEU_001',
-    email: 'CHSV_NINH_KIEU@gmail.com',
-    fullName: 'Chi hội Ninh Kiều',
-    passwordHash: null, // Will be hashed by service
-    avatarUrl: null,
-    status: 'ACTIVE',
-    unitId: '550e8400-e29b-41d4-a716-446655440012',
-  },
-  {
-    id: '550e8400-e29b-41d4-a716-556655440014',
-    studentCode: 'CH_CO_DO_001',
-    email: 'CHSV_CO_DO@gmail.com',
-    fullName: 'Chi hội Cờ Đỏ',
-    passwordHash: null, // Will be hashed by service
-    avatarUrl: null,
-    status: 'ACTIVE',
-    unitId: '550e8400-e29b-41d4-a716-446655440013',
-  },
-  {
-    id: '550e8400-e29b-41d4-a716-556655440015',
-    studentCode: 'CH_MY_TU_001',
-    email: 'CHSV_MY_TU@gmail.com',
-    fullName: 'Chi hội Mỹ Tú',
-    passwordHash: null, // Will be hashed by service
-    avatarUrl: null,
-    status: 'ACTIVE',
-    unitId: '550e8400-e29b-41d4-a716-446655440014',
-  },
-  {
-    id: '550e8400-e29b-41d4-a716-556655440016',
-    studentCode: 'CH_THOI_LAI_001',
-    email: 'CHSV_THOI_LAI@gmail.com',
-    fullName: 'Chi hội Thới Lai',
-    passwordHash: null, // Will be hashed by service
-    avatarUrl: null,
-    status: 'ACTIVE',
-    unitId: '550e8400-e29b-41d4-a716-446655440015',
-  },
-  {
-    id: '550e8400-e29b-41d4-a716-556655440017',
-    studentCode: 'CH_LONG_MY_001',
-    email: 'CHSV_LONG_MY@gmail.com',
-    fullName: 'Chi hội Long Mỹ',
-    passwordHash: null, // Will be hashed by service
-    avatarUrl: null,
-    status: 'ACTIVE',
-    unitId: '550e8400-e29b-41d4-a716-446655440016',
+    status: 'ACTIVE' as const,
+    unitId: 6,
   },
 
   // Sample students
@@ -183,8 +83,8 @@ export const INIT_USERS = [
     fullName: 'Nguyễn Văn A',
     passwordHash: null, // Will be hashed by service
     avatarUrl: null,
-    status: 'ACTIVE',
-    unitId: '550e8400-e29b-41d4-a716-446655440002',
+    status: 'ACTIVE' as const,
+    unitId: 2,
   },
   {
     id: '550e8400-e29b-41d4-a716-556655440019',
@@ -193,8 +93,8 @@ export const INIT_USERS = [
     fullName: 'Trần Thị B',
     passwordHash: null, // Will be hashed by service
     avatarUrl: null,
-    status: 'ACTIVE',
-    unitId: '550e8400-e29b-41d4-a716-446655440003',
+    status: 'ACTIVE' as const,
+    unitId: 3,
   },
   {
     id: '550e8400-e29b-41d4-a716-556655440020',
@@ -203,8 +103,8 @@ export const INIT_USERS = [
     fullName: 'Lê Văn C',
     passwordHash: null, // Will be hashed by service
     avatarUrl: null,
-    status: 'ACTIVE',
-    unitId: '550e8400-e29b-41d4-a716-446655440004',
+    status: 'ACTIVE' as const,
+    unitId: 4,
   },
   {
     id: '550e8400-e29b-41d4-a716-556655440021',
@@ -213,8 +113,8 @@ export const INIT_USERS = [
     fullName: 'Phạm Thị D',
     passwordHash: null, // Will be hashed by service
     avatarUrl: null,
-    status: 'ACTIVE',
-    unitId: '550e8400-e29b-41d4-a716-446655440005',
+    status: 'ACTIVE' as const,
+    unitId: 5,
   },
   {
     id: '550e8400-e29b-41d4-a716-556655440022',
@@ -223,7 +123,7 @@ export const INIT_USERS = [
     fullName: 'Đặng Văn E',
     passwordHash: null, // Will be hashed by service
     avatarUrl: null,
-    status: 'ACTIVE',
-    unitId: '550e8400-e29b-41d4-a716-446655440006',
+    status: 'ACTIVE' as const,
+    unitId: 6,
   },
 ];

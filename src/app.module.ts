@@ -44,6 +44,7 @@ import { PermissionsModule } from './modules/permissions/permissions.module';
 import { RolePermissionsModule } from './modules/role_permissions/role_permissions.module';
 import { UserRolesModule } from './modules/user_roles/user_roles.module';
 import { DatabasesModule } from './databases/databases.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -87,6 +88,7 @@ import { DatabasesModule } from './databases/databases.module';
     }),
     UnitsModule,
     UsersModule,
+    AuthModule,
     RolesModule,
     PermissionsModule,
     RolePermissionsModule,
