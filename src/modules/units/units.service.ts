@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Unit } from './entities/unit.entity';
@@ -68,6 +68,22 @@ export class UnitsService {
 
   async remove(id: number) {
     const unit = await this.findOne(id);
-    return await this.unitsRepository.remove(unit);
+
+    // Check if unit has children
+    if (unit.children && unit.children.length > 0) {
+      throw new BadRequestException(
+        `Không thể xóa đơn vị "${unit.name}" vì còn ${unit.children.length} đơn vị con trực thuộc`,
+      );
+    }
+
+    // Check if unit has users
+    if (unit.users && unit.users.length > 0) {
+      throw new BadRequestException(
+        `Không thể xóa đơn vị "${unit.name}" vì còn ${unit.users.length} người dùng trực thuộc`,
+      );
+    }
+
+    await this.unitsRepository.delete(id);
+    return { deleted: true, id };
   }
 }

@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsNumber, IsUrl } from 'class-validator';
+import { IsString, IsOptional, IsNumber } from 'class-validator';
 
 export class UpdateUserDto {
   @IsString()
@@ -10,7 +10,6 @@ export class UpdateUserDto {
   major?: string;
 
   @IsString()
-  @IsUrl()
   @IsOptional()
   avatarUrl?: string;
 

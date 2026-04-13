@@ -5,19 +5,17 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UnitsModule } from './modules/units/units.module';
 import { UsersModule } from './modules/users/users.module';
-import { UnitTenuresModule } from './modules/unit_tenures/unit_tenures.module';
 import { CriteriaGroupsModule } from './modules/criteria_groups/criteria_groups.module';
 import { CriteriaModule } from './modules/criteria/criteria.module';
 import { ActivitiesModule } from './modules/activities/activities.module';
 import { ActivityCriteriaModule } from './modules/activity_criteria/activity_criteria.module';
 import { RegistrationsModule } from './modules/registrations/registrations.module';
+import { StudentProgressModule } from './modules/student_progress/student_progress.module';
 import { TagsModule } from './modules/tags/tags.module';
 import { UserInterestsModule } from './modules/user_interests/user_interests.module';
 import { ActivityTagsModule } from './modules/activity_tags/activity_tags.module';
-import { InteractionLogsModule } from './modules/interaction_logs/interaction_logs.module';
-import { ActivityApprovalsModule } from './modules/activity_approvals/activity_approvals.module';
-import { PostsModule } from './modules/posts/posts.module';
-import { AttachmentsModule } from './modules/attachments/attachments.module';
+import { UserCriteriaModule } from './modules/user_criteria/user-criteria.module';
+import { UserActivityScheduleModule } from './modules/user_activity_schedule/user-activity-schedule.module';
 import { User } from './modules/users/entities/user.entity';
 import { Unit } from './modules/units/entities/unit.entity';
 import { Activity } from './modules/activities/entities/activity.entity';
@@ -27,17 +25,14 @@ import { Role } from './modules/roles/entities/role.entity';
 import { Permission } from './modules/permissions/entities/permission.entity';
 import { RolePermission } from './modules/role_permissions/entities/role_permission.entity';
 import { UserRole } from './modules/user_roles/entities/user_role.entity';
-import { UnitTenure } from './modules/unit_tenures/entities/unit_tenure.entity';
 import { Criterion } from './modules/criteria/entities/criterion.entity';
 import { CriteriaGroup } from './modules/criteria_groups/entities/criteria_group.entity';
 import { ActivityCriterion } from './modules/activity_criteria/entities/activity_criterion.entity';
 import { Tag } from './modules/tags/entities/tag.entity';
 import { ActivityTag } from './modules/activity_tags/entities/activity_tag.entity';
 import { UserInterest } from './modules/user_interests/entities/user_interest.entity';
-import { InteractionLog } from './modules/interaction_logs/entities/interaction_log.entity';
-import { ActivityApproval } from './modules/activity_approvals/entities/activity_approval.entity';
-import { Post } from './modules/posts/entities/post.entity';
-import { Attachment } from './modules/attachments/entities/attachment.entity';
+import { UserCriteria } from './modules/user_criteria/entities/user_criteria.entity';
+import { UserActivitySchedule } from './modules/user_activity_schedule/entities/user_activity_schedule.entity';
 import { ActivityCategoriesModule } from './modules/activity_categories/activity_categories.module';
 import { RolesModule } from './modules/roles/roles.module';
 import { PermissionsModule } from './modules/permissions/permissions.module';
@@ -54,37 +49,49 @@ import { AuthModule } from './modules/auth/auth.module';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get<string>('DB_HOST'),
-        port: parseInt(configService.get<string>('DB_PORT') || '5432'),
-        username: configService.get<string>('DB_USERNAME'),
-        password: configService.get<string>('DB_PASSWORD'),
-        database: configService.get<string>('DB_NAME'),
-        entities: [
-          User,
-          Unit,
-          UnitTenure,
-          Activity,
-          ActivityCategory,
-          ActivityApproval,
-          Registration,
-          Role,
-          Permission,
-          RolePermission,
-          UserRole,
-          Criterion,
-          CriteriaGroup,
-          ActivityCriterion,
-          Tag,
-          ActivityTag,
-          UserInterest,
-          InteractionLog,
-          Post,
-          Attachment,
-        ],
-        synchronize: true,
-      }),
+      useFactory: (configService: ConfigService) => {
+        const isDevelopment = process.env.NODE_ENV !== 'production';
+        return {
+          type: 'postgres',
+          host: configService.get<string>('DB_HOST'),
+          port: parseInt(configService.get<string>('DB_PORT') || '5432'),
+          username: configService.get<string>('DB_USERNAME'),
+          password: configService.get<string>('DB_PASSWORD'),
+          database: configService.get<string>('DB_NAME'),
+          entities: [
+            User,
+            Unit,
+            Activity,
+            ActivityCategory,
+            Registration,
+            Role,
+            Permission,
+            RolePermission,
+            UserRole,
+            Criterion,
+            CriteriaGroup,
+            ActivityCriterion,
+            Tag,
+            ActivityTag,
+            UserInterest,
+            UserCriteria,
+            UserActivitySchedule,
+          ],
+          migrations: ['dist/migrations/*.js'],
+          migrationsRun: false, // Disabled - use manual migrations instead
+          synchronize: false, // ⚠️ TEMPORARILY DISABLED - Fix DB orphaned data first, then re-enable
+          logging: isDevelopment ? ['error'] : false, // Only log errors to avoid noise
+          // ✅ Foreign key constraints enabled
+          supportBigNumbers: true,
+          bigNumberStrings: false,
+          dateStrings: false,
+          poolSize: 10,
+          extra: {
+            // ✅ Ensures TypeORM respects CASCADE deletes
+            statement_timeout: 30000,
+          },
+        };
+      },
     }),
     UnitsModule,
     UsersModule,
@@ -93,20 +100,18 @@ import { AuthModule } from './modules/auth/auth.module';
     PermissionsModule,
     RolePermissionsModule,
     UserRolesModule,
-    UnitTenuresModule,
     CriteriaGroupsModule,
     CriteriaModule,
     ActivitiesModule,
     ActivityCategoriesModule,
     ActivityCriteriaModule,
-    ActivityApprovalsModule,
     RegistrationsModule,
+    StudentProgressModule,
     TagsModule,
     UserInterestsModule,
     ActivityTagsModule,
-    InteractionLogsModule,
-    PostsModule,
-    AttachmentsModule,
+    UserCriteriaModule,
+    UserActivityScheduleModule,
     DatabasesModule,
   ],
   controllers: [AppController],

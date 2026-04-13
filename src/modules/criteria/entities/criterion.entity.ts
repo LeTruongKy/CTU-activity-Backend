@@ -25,8 +25,14 @@ export class Criterion {
   @JoinColumn({ name: 'groupId' })
   group: CriteriaGroup;
 
+  @Column({ type: 'varchar', length: 50, nullable: true, unique: true })
+  code: string | null;
+
   @Column({ type: 'varchar', length: 255, nullable: false })
   name: string;
+
+  @Column({ type: 'text', nullable: true })
+  description: string | null;
 
   @OneToMany(() => ActivityCriterion, (ac) => ac.criterion)
   activityCriteria: ActivityCriterion[];

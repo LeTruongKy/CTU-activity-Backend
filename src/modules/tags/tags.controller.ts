@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { TagsService } from './tags.service';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
@@ -8,27 +8,50 @@ export class TagsController {
   constructor(private readonly tagsService: TagsService) {}
 
   @Post()
-  create(@Body() createTagDto: CreateTagDto) {
-    return this.tagsService.create(createTagDto);
+  async create(@Body() createTagDto: CreateTagDto) {
+    const tag = await this.tagsService.create(createTagDto);
+    return {
+      message: 'Tag created successfully',
+      tag,
+    };
   }
 
   @Get()
-  findAll() {
-    return this.tagsService.findAll();
+  async findAll() {
+    const tags = await this.tagsService.findAll();
+    return {
+      message: 'Tags retrieved successfully',
+      data: tags,
+    };
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.tagsService.findOne(+id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    const tag = await this.tagsService.findOne(id);
+    return {
+      message: 'Tag retrieved successfully',
+      tag,
+    };
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTagDto: UpdateTagDto) {
-    return this.tagsService.update(+id, updateTagDto);
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateTagDto: UpdateTagDto,
+  ) {
+    const tag = await this.tagsService.update(id, updateTagDto);
+    return {
+      message: 'Tag updated successfully',
+      tag,
+    };
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.tagsService.remove(+id);
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    await this.tagsService.remove(id);
+    return {
+      message: 'Tag deleted successfully',
+    };
   }
 }
+

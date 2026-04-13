@@ -3,13 +3,16 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { DatabasesService } from './databases.service';
 import { DatabasesController } from './databases.controller';
-import { Role } from 'src/modules/roles/entities/role.entity';
-import { Permission } from 'src/modules/permissions/entities/permission.entity';
-import { RolePermission } from 'src/modules/role_permissions/entities/role_permission.entity';
-import { Unit } from 'src/modules/units/entities/unit.entity';
-import { User } from 'src/modules/users/entities/user.entity';
-import { UserRole } from 'src/modules/user_roles/entities/user_role.entity';
-import { ActivityCategory } from 'src/modules/activity_categories/entities/activity_category.entity';
+import { Role } from '../modules/roles/entities/role.entity';
+import { Permission } from '../modules/permissions/entities/permission.entity';
+import { RolePermission } from '../modules/role_permissions/entities/role_permission.entity';
+import { Unit } from '../modules/units/entities/unit.entity';
+import { User } from '../modules/users/entities/user.entity';
+import { UserRole } from '../modules/user_roles/entities/user_role.entity';
+import { ActivityCategory } from '../modules/activity_categories/entities/activity_category.entity';
+import { CriteriaGroup } from '../modules/criteria_groups/entities/criteria_group.entity';
+import { Criterion } from '../modules/criteria/entities/criterion.entity';
+import { SV5TSeederService } from './sv5t-seeder.service';
 
 @Module({
   imports: [
@@ -21,10 +24,12 @@ import { ActivityCategory } from 'src/modules/activity_categories/entities/activ
       User,
       UserRole,
       ActivityCategory,
+      CriteriaGroup,
+      Criterion,
     ]),
   ],
   controllers: [DatabasesController],
-  providers: [DatabasesService],
-  exports: [DatabasesService],
+  providers: [DatabasesService, SV5TSeederService],
+  exports: [DatabasesService, SV5TSeederService],
 })
 export class DatabasesModule {}

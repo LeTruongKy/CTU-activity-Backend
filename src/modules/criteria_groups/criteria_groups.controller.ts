@@ -8,27 +8,27 @@ export class CriteriaGroupsController {
   constructor(private readonly criteriaGroupsService: CriteriaGroupsService) {}
 
   @Post()
-  create(@Body() createCriteriaGroupDto: CreateCriteriaGroupDto) {
+  async create(@Body() createCriteriaGroupDto: CreateCriteriaGroupDto) {
     return this.criteriaGroupsService.create(createCriteriaGroupDto);
   }
 
   @Get()
-  findAll() {
+  async findAll() {
     return this.criteriaGroupsService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     return this.criteriaGroupsService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCriteriaGroupDto: UpdateCriteriaGroupDto) {
+  async update(@Param('id') id: string, @Body() updateCriteriaGroupDto: UpdateCriteriaGroupDto) {
     return this.criteriaGroupsService.update(+id, updateCriteriaGroupDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     return this.criteriaGroupsService.remove(+id);
   }
 }

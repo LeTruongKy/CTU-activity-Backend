@@ -27,4 +27,8 @@ export class CreateUserDto {
   @IsNumber()
   @IsOptional()
   unitId?: number;
+
+  @IsNumber()
+  @IsOptional()
+  roleId?: number;
 }

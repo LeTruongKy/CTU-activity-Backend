@@ -15,6 +15,8 @@ import { LocalAuthGuard } from './local-auth.guard';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { Public } from '../../decorators/customize';
 
+/* eslint-disable @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument */
+
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -28,14 +30,14 @@ export class AuthController {
   @Public()
   @Post('login')
   @UseGuards(LocalAuthGuard)
-  async login(@Req() req, @Res({ passthrough: true }) response: Response) {
+  async login(@Req() req: any, @Res({ passthrough: true }) response: Response) {
     return await this.authService.login(req.user, response);
   }
 
   @Get('account')
   @UseGuards(JwtAuthGuard)
-  async getAccount(@Req() req: any) {
-    const user = req.user;
+  getAccount(@Req() req: any) {
+    const user = req?.user;
     return {
       message: 'User account information',
       user,
@@ -44,17 +46,27 @@ export class AuthController {
 
   @Public()
   @Post('refresh-token')
-  async refreshToken(@Req() req: Request, @Res({ passthrough: true }) response: Response) {
-    const refreshToken = req.cookies?.['refresh_token'];
+  async refreshToken(@Req() req: any, @Res({ passthrough: true }) response: Response) {
+    // Support both cookies and Authorization header
+    let refreshToken = req?.cookies?.['refresh_token'] as string | undefined;
+    
     if (!refreshToken) {
-      throw new UnauthorizedException('No refresh token found in cookies');
+      // Try to get from Authorization header
+      const authHeader = req?.headers?.['authorization'] as string | undefined;
+      if (authHeader && authHeader.startsWith('Bearer ')) {
+        refreshToken = authHeader.slice(7); // Remove 'Bearer ' prefix
+      }
+    }
+    
+    if (!refreshToken) {
+      throw new UnauthorizedException('No refresh token found in cookies or Authorization header');
     }
     return await this.authService.refreshToken(refreshToken, response);
   }
 
   @Post('logout')
   @UseGuards(JwtAuthGuard)
-  async logout(@Req() req, @Res({ passthrough: true }) response: Response) {
-    return await this.authService.handleLogout(response, req.user);
+  async logout(@Req() req: any, @Res({ passthrough: true }) response: Response) {
+    return await this.authService.handleLogout(response, req?.user);
   }
 }

@@ -7,7 +7,10 @@ import {
   MinLength,
   MaxLength,
   Min,
+  IsArray,
+  IsInt,
 } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class UpdateActivityDto {
   @IsString()
@@ -30,6 +33,11 @@ export class UpdateActivityDto {
   @MaxLength(500)
   location?: string;
 
+  @IsString()
+  @IsOptional()
+  @MaxLength(500)
+  posterUrl?: string;
+
   @IsISO8601()
   @IsOptional()
   startTime?: string;
@@ -42,12 +50,19 @@ export class UpdateActivityDto {
   @IsOptional()
   @Min(1)
   maxParticipants?: number | null;
+
+  @Type(() => Number)
+  @IsArray()
+  @IsInt({ each: true })
+  @Min(1, { each: true })
+  @IsOptional()
+  tagIds?: number[];
 }
 
 export class UpdateActivityStatusDto {
   @IsString()
   @IsNotEmpty()
-  status: 'DRAFT' | 'PENDING' | 'APPROVED' | 'PUBLISHED' | 'COMPLETED' | 'CANCELLED';
+  status: 'PENDING' | 'PUBLISHED' | 'CANCELLED' | 'COMPLETED';
 
   @IsString()
   @IsOptional()

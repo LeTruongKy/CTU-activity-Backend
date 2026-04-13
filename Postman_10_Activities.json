@@ -1,0 +1,240 @@
+{
+  "info": {
+    "_postman_id": "ctu-activity-10-create",
+    "name": "CTU Activity - Create 10 Activities",
+    "description": "Collection để tạo 10 hoạt động qua API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Đá bóng",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Đá bóng\",\n  \"description\": \"Giải đá bóng nam với các trận đấu thử thách kỹ năng. Mở cửa cho tất cả sinh viên yêu thích bóng đá.\",\n  \"posterUrl\": \"/1.jpg\",\n  \"location\": \"Sân bóng đá trường Đại học Cần Thơ\",\n  \"categoryId\": 1,\n  \"unitId\": 1,\n  \"maxParticipants\": 100,\n  \"startTime\": \"2026-05-15T10:00:00Z\",\n  \"endTime\": \"2026-05-15T12:00:00Z\",\n  \"tags\": [1, 2]\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/activities",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["activities"]
+        }
+      }
+    },
+    {
+      "name": "2. Xuân san sẻ",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Xuân san sẻ\",\n  \"description\": \"Chương trình xuân sang - chia sẻ yêu thương, trao quà cho cộng đồng địa phương.\",\n  \"posterUrl\": \"/2.jpg\",\n  \"location\": \"Sân trường Đại học Cần Thơ\",\n  \"categoryId\": 3,\n  \"unitId\": 2,\n  \"maxParticipants\": 150,\n  \"startTime\": \"2026-02-10T14:00:00Z\",\n  \"endTime\": \"2026-02-10T16:30:00Z\",\n  \"tags\": [3, 4]\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/activities",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["activities"]
+        }
+      }
+    },
+    {
+      "name": "3. Hội trại",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Hội trại\",\n  \"description\": \"Hoạt động hội trại sinh viên với các trò chơi, ca hát, cắm trại đêm.\",\n  \"posterUrl\": \"/3.jpg\",\n  \"location\": \"Khu cảnh công viên ngoài trường\",\n  \"categoryId\": 2,\n  \"unitId\": 1,\n  \"maxParticipants\": 200,\n  \"startTime\": \"2026-04-20T08:00:00Z\",\n  \"endTime\": \"2026-04-20T22:00:00Z\",\n  \"tags\": [2, 5]\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/activities",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["activities"]
+        }
+      }
+    },
+    {
+      "name": "4. Hoa điểm tốt",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Hoa điểm tốt\",\n  \"description\": \"Chương trình trang trí hoa để vinh danh những sinh viên xuất sắc trong học tập.\",\n  \"posterUrl\": \"/4.jpg\",\n  \"location\": \"Nhà C Đại học Cần Thơ\",\n  \"categoryId\": 4,\n  \"unitId\": 3,\n  \"maxParticipants\": 80,\n  \"startTime\": \"2026-06-01T09:00:00Z\",\n  \"endTime\": \"2026-06-01T11:00:00Z\",\n  \"tags\": [6, 7]\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/activities",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["activities"]
+        }
+      }
+    },
+    {
+      "name": "5. Đại hội",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Đại hội\",\n  \"description\": \"Đại hội sinh viên toàn trường - bầu chọn đại diện sinh viên, thảo luận các chính sách.\",\n  \"posterUrl\": \"/5.jpg\",\n  \"location\": \"Hội trường tổ chức Đại học Cần Thơ\",\n  \"categoryId\": 5,\n  \"unitId\": 1,\n  \"maxParticipants\": 500,\n  \"startTime\": \"2026-03-15T13:00:00Z\",\n  \"endTime\": \"2026-03-15T17:00:00Z\",\n  \"tags\": [8, 5]\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/activities",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["activities"]
+        }
+      }
+    },
+    {
+      "name": "6. Trung thu",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Trung thu\",\n  \"description\": \"Lễ hội Trung Thu với các hoạt động truyền thống, ăn bánh, chơi đèn lồng.\",\n  \"posterUrl\": \"/6.jpg\",\n  \"location\": \"Công viên Sinh viên Cần Thơ\",\n  \"categoryId\": 2,\n  \"unitId\": 2,\n  \"maxParticipants\": 300,\n  \"startTime\": \"2026-09-20T18:00:00Z\",\n  \"endTime\": \"2026-09-20T21:00:00Z\",\n  \"tags\": [9, 10]\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/activities",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["activities"]
+        }
+      }
+    },
+    {
+      "name": "7. Chạy bộ",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Chạy bộ\",\n  \"description\": \"Sự kiện Marathon tập thế - chạy bộ 5km, 10km để nâng cao sức khỏe sinh viên.\",\n  \"posterUrl\": \"/7.jpg\",\n  \"location\": \"Khu vực công viên trường\",\n  \"categoryId\": 1,\n  \"unitId\": 1,\n  \"maxParticipants\": 250,\n  \"startTime\": \"2026-07-10T06:00:00Z\",\n  \"endTime\": \"2026-07-10T08:00:00Z\",\n  \"tags\": [1, 11]\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/activities",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["activities"]
+        }
+      }
+    },
+    {
+      "name": "8. Đá bóng khu C",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Đá bóng khu nhà C\",\n  \"description\": \"Giải bóng đá nội bộ khu nhà C - sân chơi thân thiện cho sinh viên.\",\n  \"posterUrl\": \"/8.jpg\",\n  \"location\": \"Sân bóng trước khu nhà C\",\n  \"categoryId\": 1,\n  \"unitId\": 3,\n  \"maxParticipants\": 60,\n  \"startTime\": \"2026-05-22T16:00:00Z\",\n  \"endTime\": \"2026-05-22T18:00:00Z\",\n  \"tags\": [1, 2]\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/activities",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["activities"]
+        }
+      }
+    },
+    {
+      "name": "9. Tình nguyện",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Chương trình tình nguyện\",\n  \"description\": \"Hoạt động tình nguyện giúp đỡ cộng đồng - dạy học, vệ sinh môi trường, tặng quà.\",\n  \"posterUrl\": \"/9.jpg\",\n  \"location\": \"Làng ngoài thành phố\",\n  \"categoryId\": 3,\n  \"unitId\": 2,\n  \"maxParticipants\": 120,\n  \"startTime\": \"2026-08-05T07:00:00Z\",\n  \"endTime\": \"2026-08-05T12:00:00Z\",\n  \"tags\": [3, 4, 12]\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/activities",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["activities"]
+        }
+      }
+    },
+    {
+      "name": "10. Vẽ nên ước mơ",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Vẽ nên những ước mơ\",\n  \"description\": \"Cuộc thi vẽ tranh - sinh viên thể hiện sáng tạo, những ước mơ qua hình ảnh.\",\n  \"posterUrl\": \"/10.jpg\",\n  \"location\": \"Phòng triển lãm Đại học Cần Thơ\",\n  \"categoryId\": 4,\n  \"unitId\": 1,\n  \"maxParticipants\": 80,\n  \"startTime\": \"2026-10-12T08:30:00Z\",\n  \"endTime\": \"2026-10-12T11:30:00Z\",\n  \"tags\": [13, 6]\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/activities",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["activities"]
+        }
+      }
+    }
+  ]
+}

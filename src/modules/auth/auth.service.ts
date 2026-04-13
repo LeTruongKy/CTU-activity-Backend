@@ -11,9 +11,11 @@ import { RolesService } from '../roles/roles.service';
 import { UnitsService } from '../units/units.service';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { Response } from 'express';
+import type { Response } from 'express';
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { RegisterDto } from './dto/register.dto';
+
+/* eslint-disable @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument */
 
 export interface IUser {
   id: string;
@@ -61,6 +63,7 @@ export class AuthService {
     const userRole = await this.userRolesService.findByUserId(user.id);
     const role = userRole ? userRole.role?.name : 'STUDENT';
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { passwordHash, refreshToken, ...result } = user;
     return { ...result, role };
   }
@@ -71,15 +74,26 @@ export class AuthService {
   }
 
   generateRefreshToken(payload: any) {
+    const expiresIn =
+      this.configService.get<string>('REFRESH_TOKEN_expiresIn') || '7d';
     const refreshToken = this.jwtService.sign(payload, {
       secret: this.configService.get<string>('REFRESH_TOKEN_SECRET'),
-      expiresIn: (this.configService.get<string>('REFRESH_TOKEN_expiresIn') || '7d') as any,
-    });
+      expiresIn: expiresIn as any,
+    } as any);
     return refreshToken;
   }
 
   async login(user: any, response: Response) {
-    const { id, email, fullName, studentCode, status, avatarUrl, unitId, role } = user;
+    const {
+      id,
+      email,
+      fullName,
+      studentCode,
+      status,
+      avatarUrl,
+      unitId,
+      role,
+    } = user as Record<string, unknown>;
 
     // Double-check BANNED status
     if (status === 'BANNED') {
@@ -87,25 +101,24 @@ export class AuthService {
     }
 
     const payload = {
-      sub: id,
-      email,
-      fullName,
-      studentCode,
-      unitId,
-      role,
+      sub: id as string,
+      email: email as string,
+      fullName: fullName as string,
+      studentCode: studentCode as string | undefined,
+      unitId: unitId as number,
+      role: role as string,
       iss: 'ctu-activity-backend',
     };
 
     const accessToken = this.generateAccessToken(payload);
     const refreshToken = this.generateRefreshToken(payload);
 
-    await this.usersService.updateRefreshToken(id, refreshToken);
+    await this.usersService.updateRefreshToken(id as string, refreshToken);
 
     response.cookie('refresh_token', refreshToken, {
       httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
-
     return {
       message: 'Login successfully',
       accessToken,
@@ -124,7 +137,7 @@ export class AuthService {
 
   async register(registerDto: RegisterDto) {
     const { email, password, fullName, studentCode, unitId } = registerDto;
-
+    console.log('Registering user with email:', email, 'and unitId:', unitId);
     // Verify unit exists
     const unit = await this.unitsService.findOne(unitId);
     if (!unit) {
@@ -151,15 +164,12 @@ export class AuthService {
       }
     }
 
-    const hashedPassword = this.getHashPassword(password);
-
     const newUserResult = await this.usersService.create({
       email,
-      passwordHash: hashedPassword,
+      password,
       fullName,
       studentCode,
       unitId,
-      status: 'ACTIVE',
     });
 
     // newUserResult should be a User object from usersService.create
@@ -176,7 +186,7 @@ export class AuthService {
       roleId: studentRole.id,
       unitId: (newUser as any).unitId,
     });
-
+    
     return {
       message: 'Registration successful. You have been assigned the STUDENT role.',
       user: {
@@ -191,7 +201,10 @@ export class AuthService {
     };
   }
 
-  async handleLogout(response: Response, user: IUser) {
+  async handleLogout(response: Response, user: IUser | undefined) {
+    if (!user?.id) {
+      throw new UnauthorizedException('User not authenticated');
+    }
     await this.usersService.updateRefreshToken(user.id, null);
     response.clearCookie('refresh_token');
     return { message: 'Logout successfully' };

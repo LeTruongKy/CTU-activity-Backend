@@ -12,6 +12,7 @@ import {
 import { Unit } from '../../units/entities/unit.entity';
 import { Registration } from '../../registrations/entities/registration.entity';
 import { UserRole } from '../../user_roles/entities/user_role.entity';
+import { UserCriteria } from '../../user_criteria/entities/user_criteria.entity';
 
 @Entity('users')
 export class User {
@@ -54,6 +55,25 @@ export class User {
 
   @OneToMany(() => UserRole, (ur) => ur.user)
   userRoles: UserRole[];
+
+  @OneToMany(() => UserCriteria, (uc) => uc.user)
+  userCriteria: UserCriteria[];
+
+  // SV5T Tracking Fields
+  @Column({ type: 'float', nullable: true, default: 0.0 })
+  gpa: number | null;
+
+  @Column({ type: 'float', nullable: true, default: 0.0 })
+  drl: number | null;
+
+  @Column({ type: 'integer', nullable: true, default: 0 })
+  creditCount: number | null;
+
+  @Column({ type: 'boolean', nullable: true, default: false })
+  isDisabled: boolean | null;
+
+  @Column({ type: 'boolean', nullable: false, default: false })
+  sv5tEligible: boolean;
 
   @CreateDateColumn()
   createdAt: Date;

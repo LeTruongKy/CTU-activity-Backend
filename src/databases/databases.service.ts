@@ -4,13 +4,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { genSaltSync, hashSync } from 'bcryptjs';
 
-import { Role } from 'src/modules/roles/entities/role.entity';
-import { Permission } from 'src/modules/permissions/entities/permission.entity';
-import { RolePermission } from 'src/modules/role_permissions/entities/role_permission.entity';
-import { Unit } from 'src/modules/units/entities/unit.entity';
-import { User } from 'src/modules/users/entities/user.entity';
-import { UserRole } from 'src/modules/user_roles/entities/user_role.entity';
-import { ActivityCategory } from 'src/modules/activity_categories/entities/activity_category.entity';
+import { Role } from '../modules/roles/entities/role.entity';
+import { Permission } from '../modules/permissions/entities/permission.entity';
+import { RolePermission } from '../modules/role_permissions/entities/role_permission.entity';
+import { Unit } from '../modules/units/entities/unit.entity';
+import { User } from '../modules/users/entities/user.entity';
+import { UserRole } from '../modules/user_roles/entities/user_role.entity';
+import { ActivityCategory } from '../modules/activity_categories/entities/activity_category.entity';
 
 import {
   INIT_ROLES,
@@ -24,6 +24,7 @@ import {
   INIT_ACTIVITY_CATEGORIES,
   INIT_TAGS,
 } from './sampleData';
+import { SV5TSeederService } from './sv5t-seeder.service';
 
 @Injectable()
 export class DatabasesService implements OnModuleInit {
@@ -52,6 +53,7 @@ export class DatabasesService implements OnModuleInit {
     private activityCategoryRepository: Repository<ActivityCategory>,
 
     private configService: ConfigService,
+    private sv5tSeederService: SV5TSeederService,
   ) {}
 
   async onModuleInit() {
@@ -140,6 +142,10 @@ export class DatabasesService implements OnModuleInit {
             `✓ Inserted ${INIT_ACTIVITY_CATEGORIES.length} activity categories`,
           );
         }
+
+        // Initialize SV5T (Student of 5 Merits) criteria
+        this.logger.log('Initializing SV5T criteria data...');
+        await this.sv5tSeederService.seedSV5TCriteria();
 
         this.logger.log('✅ Database initialization completed successfully!');
       } catch (error) {
