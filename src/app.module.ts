@@ -16,6 +16,7 @@ import { UserInterestsModule } from './modules/user_interests/user_interests.mod
 import { ActivityTagsModule } from './modules/activity_tags/activity_tags.module';
 // import { UserCriteriaModule } from './modules/user_criteria/user-criteria.module';
 import { UserActivityScheduleModule } from './modules/user_activity_schedule/user-activity-schedule.module';
+import { UserActivityInteractionsModule } from './modules/user_activity_interactions/user_activity_interactions.module';
 import { User } from './modules/users/entities/user.entity';
 import { Unit } from './modules/units/entities/unit.entity';
 import { Activity } from './modules/activities/entities/activity.entity';
@@ -31,6 +32,7 @@ import { ActivityCriterion } from './modules/activity_criteria/entities/activity
 import { Tag } from './modules/tags/entities/tag.entity';
 import { ActivityTag } from './modules/activity_tags/entities/activity_tag.entity';
 import { UserInterest } from './modules/user_interests/entities/user_interest.entity';
+import { UserActivityInteraction } from './modules/user_activity_interactions/entities/user_activity_interaction.entity';
 // import { UserCriteria } from './modules/user_criteria/entities/user_criteria.entity';
 import { UserActivitySchedule } from './modules/user_activity_schedule/entities/user_activity_schedule.entity';
 import { ActivityCategoriesModule } from './modules/activity_categories/activity_categories.module';
@@ -74,6 +76,7 @@ import { AuthModule } from './modules/auth/auth.module';
             Tag,
             ActivityTag,
             UserInterest,
+            UserActivityInteraction,
             // UserCriteria,
             UserActivitySchedule,
           ],
@@ -110,6 +113,7 @@ import { AuthModule } from './modules/auth/auth.module';
     TagsModule,
     UserInterestsModule,
     ActivityTagsModule,
+    UserActivityInteractionsModule,
     // UserCriteriaModule,
     UserActivityScheduleModule,
     DatabasesModule,

@@ -125,5 +125,57 @@ export class UserInterestsService {
 
     return await this.userInterestsRepository.save(interests);
   }
+
+  // ✅ NEW: Increment weight for user's interests (for interaction tracking)
+  async incrementWeight(
+    userId: string,
+    tagIds: number[],
+    increment: number = 1,
+  ): Promise<UserInterest[]> {
+    if (!userId) {
+      throw new BadRequestException('userId is required');
+    }
+
+    if (!tagIds || tagIds.length === 0) {
+      throw new BadRequestException('tagIds must not be empty');
+    }
+
+    if (increment <= 0) {
+      throw new BadRequestException('increment must be greater than 0');
+    }
+
+    // Validate all tags exist
+    const tags = await this.tagsService.findByIds(tagIds);
+    if (tags.length !== tagIds.length) {
+      throw new NotFoundException('Some tags not found');
+    }
+
+    const updatedInterests: UserInterest[] = [];
+
+    // Update or create interest for each tag
+    for (const tagId of tagIds) {
+      let interest = await this.userInterestsRepository.findOne({
+        where: { userId, tagId },
+      });
+
+      if (interest) {
+        // Increment existing weight, cap at 100
+        interest.weight = Math.min(interest.weight + increment, 100);
+      } else {
+        // Create new interest with weight
+        interest = this.userInterestsRepository.create({
+          userId,
+          tagId,
+          weight: Math.min(increment, 100),
+        });
+      }
+
+      const saved = await this.userInterestsRepository.save(interest);
+      updatedInterests.push(saved);
+    }
+
+    return updatedInterests;
+  }
 }
+
 
