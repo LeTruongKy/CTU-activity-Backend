@@ -18,6 +18,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import type { Express } from 'express';
 import { RegistrationsService } from './registrations.service';
 import { CreateRegistrationDto } from './dto/create-registration.dto';
+import { CheckInDto } from './dto/check-in.dto';
 import { CheckInRegistrationDto, ProofSubmissionDto, VerifyProofDto } from './dto/update-registration.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
@@ -42,7 +43,7 @@ export class RegistrationsController {
   }
 
   /**
-   * PATCH /registrations/:activityId/check-in
+   * PATCH /registrations/:id/check-in
    * Check in to an activity using QR code
    */
   @Patch(':id/check-in')
@@ -66,6 +67,33 @@ export class RegistrationsController {
     return {
       message: 'Check-in successful',
       registration: checkedIn,
+    };
+  }
+
+  /**
+   * POST /registrations/check-in
+   * Check-in via QR code with signature verification (NEW)
+   * Called from: frontend /checkin page
+   * 
+   * Body: { activityId, timestamp, signature }
+   */
+  @Post('check-in')
+  @UseGuards(JwtAuthGuard)
+  async checkInViaQr(
+    @Req() req: any,
+    @Body() checkInDto: CheckInDto,
+  ) {
+    const registration = await this.registrationsService.checkInViaQr(
+      req.user.id,
+      checkInDto.activityId,
+      checkInDto.timestamp,
+      checkInDto.signature,
+    );
+
+    return {
+      success: true,
+      message: 'Check-in successful',
+      registration,
     };
   }
 

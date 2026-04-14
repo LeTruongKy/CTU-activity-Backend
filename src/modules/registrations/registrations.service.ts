@@ -15,6 +15,7 @@ import { User } from '../users/entities/user.entity';
 import { CreateRegistrationDto } from './dto/create-registration.dto';
 import { ProofSubmissionDto, VerifyProofDto } from './dto/update-registration.dto';
 import { CloudinaryService } from '../../cores/cloudinary/cloudinary.service';
+import { QrUrlService } from '../../cores/qr/qr-url.service';
 import { CalendarService } from '../user_activity_schedule/calendar.service';
 
 @Injectable()
@@ -27,6 +28,7 @@ export class RegistrationsService {
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
     private readonly cloudinaryService: CloudinaryService,
+    private readonly qrUrlService: QrUrlService,
     private readonly calendarService: CalendarService,
   ) {}
 
@@ -179,6 +181,86 @@ export class RegistrationsService {
       }
       console.error('Error checking in:', error);
       throw new InternalServerErrorException('Failed to check in');
+    }
+  }
+
+  /**
+   * ✅ Check-in via QR code with signature verification
+   * Used for URL-based QR codes (no in-app QR scanner needed)
+   * 
+   * @param userId - User ID from JWT
+   * @param activityId - Activity ID from QR
+   * @param timestamp - Timestamp from QR
+   * @param signature - HMAC-SHA256 signature from QR
+   */
+  async checkInViaQr(
+    userId: string,
+    activityId: number,
+    timestamp: number,
+    signature: string,
+  ): Promise<Registration> {
+    try {
+      // 1. Find activity
+      console.log('Checking in via QR with data:', { userId, activityId, timestamp, signature })
+      const activity = await this.activitiesRepository
+        .createQueryBuilder('activity')
+        .addSelect('activity.qrSecret') 
+        .where('activity.id = :id', { id: activityId })
+        .getOne();
+      if (!activity) {
+        throw new NotFoundException(`Activity with ID ${activityId} not found`);
+      }
+      console.log('Found activity for QR check-in:', activity)
+      // 2. Verify signature using QrUrlService
+      const isSignatureValid = this.qrUrlService.verifySignature(
+        activityId,
+        timestamp,
+        signature,
+        activity.qrSecret,
+      );
+      if (!isSignatureValid) {
+        throw new BadRequestException('Invalid QR code signature');
+      }
+
+      // 3. (Optional) Verify timestamp is not too old (max 10 minutes for demo)
+      // Comment out for demo, uncomment for production
+      // const isTimestampValid = this.qrUrlService.isTimestampValid(timestamp);
+      // if (!isTimestampValid) {
+      //   throw new BadRequestException('QR code has expired');
+      // }
+
+      // 4. Find registration
+      const registration = await this.registrationsRepository.findOne({
+        where: { userId, activityId },
+        relations: ['activity'],
+      });
+      if (!registration) {
+        throw new NotFoundException(
+          `Registration not found for user ${userId} and activity ${activityId}`,
+        );
+      }
+
+      // 5. Check if already verified
+      if (registration.proofStatus === 'VERIFIED') {
+        throw new BadRequestException('User is already verified for this activity');
+      }
+
+      // 6. Update registration - set proofStatus to VERIFIED
+      registration.proofStatus = 'VERIFIED';
+      registration.checkInAt = new Date();
+      const updated = await this.registrationsRepository.save(registration);
+
+      return this.findOne(updated.id);
+    } catch (error) {
+      if (
+        error instanceof BadRequestException ||
+        error instanceof NotFoundException ||
+        error instanceof ConflictException
+      ) {
+        throw error;
+      }
+      console.error('Error checking in via QR:', error);
+      throw new InternalServerErrorException('Failed to check in via QR');
     }
   }
 

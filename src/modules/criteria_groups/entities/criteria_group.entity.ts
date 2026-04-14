@@ -8,7 +8,6 @@ import {
 } from 'typeorm';
 import { Criterion } from '../../criteria/entities/criterion.entity';
 import { Activity } from '../../activities/entities/activity.entity';
-import { UserCriteria } from '../../user_criteria/entities/user_criteria.entity';
 
 @Entity('criteria_groups')
 export class CriteriaGroup {
@@ -29,9 +28,6 @@ export class CriteriaGroup {
 
   @OneToMany(() => Activity, (activity) => activity.criteriaGroup, { nullable: true })
   activities: Activity[];
-
-  @OneToMany(() => UserCriteria, (uc) => uc.criteriaGroup)
-  userCriteria: UserCriteria[];
 
   @CreateDateColumn()
   createdAt: Date;

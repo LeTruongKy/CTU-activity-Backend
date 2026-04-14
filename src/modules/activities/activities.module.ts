@@ -13,6 +13,7 @@ import { ActivityCriteriaModule } from '../activity_criteria/activity_criteria.m
 import { CriteriaModule } from '../criteria/criteria.module';
 import { ActivityCriterion } from '../activity_criteria/entities/activity_criterion.entity';
 import { CloudinaryModule } from '../../cores/cloudinary/cloudinary.module';
+import { QRModule } from '../../cores/qr/qr.module';
 import { TagsModule } from '../tags/tags.module';
 import { RecommendationService } from './services/recommendation.service';
 import { ReportService } from '../../cores/report/report.service';
@@ -26,6 +27,7 @@ import { ReportService } from '../../cores/report/report.service';
     ActivityCriteriaModule,
     CriteriaModule,
     CloudinaryModule,
+    QRModule,
     TagsModule,
   ],
   controllers: [ActivitiesController],

@@ -14,6 +14,7 @@ import { UpdateActivityDto, UpdateActivityStatusDto } from './dto/update-activit
 import { UnitsService } from '../units/units.service';
 import { ActivityCategoriesService } from '../activity_categories/activity_categories.service';
 import { CloudinaryService } from '../../cores/cloudinary/cloudinary.service';
+import { QrUrlService } from '../../cores/qr/qr-url.service';
 import { RecommendationService } from './services/recommendation.service';
 import { ActivityTag } from '../activity_tags/entities/activity_tag.entity';
 import { ActivityCriterion } from '../activity_criteria/entities/activity_criterion.entity';
@@ -30,6 +31,7 @@ export class ActivitiesService {
     private readonly unitsService: UnitsService,
     private readonly categoriesService: ActivityCategoriesService,
     private readonly cloudinaryService: CloudinaryService,
+    private readonly qrUrlService: QrUrlService,
     private readonly recommendationService: RecommendationService,
   ) {}
 
@@ -77,6 +79,9 @@ export class ActivitiesService {
         }
       }
 
+      // ✅ Generate QR Secret
+      const qrSecret = this.qrUrlService.generateQrSecret();
+
       // Create activity with explicit createdBy assignment
       const activity = this.activitiesRepository.create({
         title: createActivityDto.title,
@@ -90,15 +95,21 @@ export class ActivitiesService {
         maxParticipants: createActivityDto.maxParticipants || null,
         status: 'PENDING',
         createdBy: { id: creatorId } as any, // ✅ Relationship object for ManyToOne
+        qrSecret, // ✅ Store QR secret
+        qrCodeUrl: '', // Temporary, will update with actual ID
       });
 
       const saved = await this.activitiesRepository.save(activity);
+
+      // ✅ Generate QR URL with actual activity ID
+      saved.qrCodeUrl = this.qrUrlService.generateQrUrl(saved.id, saved.qrSecret);
+      const savedWithQr = await this.activitiesRepository.save(saved);
 
       // Add tags to activity_tags table
       if (createActivityDto.tagIds && createActivityDto.tagIds.length > 0) {
         const activityTags = createActivityDto.tagIds.map((tagId) => (
           this.activityTagRepository.create({
-            activityId: saved.id,
+            activityId: savedWithQr.id,
             tagId,
           })
         ));
@@ -109,14 +120,14 @@ export class ActivitiesService {
       if (createActivityDto.criteriaIds && createActivityDto.criteriaIds.length > 0) {
         const activityCriteria = createActivityDto.criteriaIds.map((criterionId) => (
           this.activityCriterionRepository.create({
-            activityId: saved.id,
+            activityId: savedWithQr.id,
             criterionId,
           })
         ));
         await this.activityCriterionRepository.save(activityCriteria);
       }
 
-      return this.findOne(saved.id);
+      return this.findOne(savedWithQr.id);
     } catch (error) {
       if (error instanceof BadRequestException || error instanceof NotFoundException) {
         throw error;
@@ -179,7 +190,6 @@ export class ActivitiesService {
       query.skip((page - 1) * limit).take(limit);
 
       const [data, total] = await query.getManyAndCount();
-
       return {
         data: data.map((activity) => this.formatActivityResponse(activity)),
         pagination: {
@@ -418,6 +428,8 @@ export class ActivitiesService {
       },
       location: activity.location,
       poster_url: activity.posterUrl,
+      qrCodeUrl: activity.qrCodeUrl, // ✅ Include QR code URL
+      qr_code_url: activity.qrCodeUrl, // ✅ snake_case alternative
       start_time: activity.startTime?.toISOString(),
       end_time: activity.endTime?.toISOString(),
       max_participants: activity.maxParticipants,
