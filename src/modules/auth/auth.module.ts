@@ -25,7 +25,7 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
       useFactory: (configService: ConfigService) => ({
         secret: configService.get<string>('ACCESS_TOKEN_SECRET'),
         signOptions: {
-          expiresIn: (configService.get<string>('ACCESS_TOKEN_expiresIn') || '15m') as any,
+          expiresIn: (configService.get<string>('ACCESS_TOKEN_expiresIn') || '60m') as any,
         },
       }),
       inject: [ConfigService],

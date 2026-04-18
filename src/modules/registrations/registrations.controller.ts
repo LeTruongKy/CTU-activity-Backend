@@ -169,10 +169,11 @@ export class RegistrationsController {
    */
   @Get('activity/:activityId')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('ADMIN', 'LCH')
+  @Roles('ADMIN', 'LCH','CH')
   async getActivityParticipants(
     @Param('activityId', ParseIntPipe) activityId: number,
   ) {
+    console.log("Getting participants for activityId:", activityId);
     const participants = await this.registrationsService.getActivityParticipants(
       activityId,
     );

@@ -245,9 +245,9 @@ export class ActivitiesService {
       throw new ForbiddenException('Only PENDING activities can be edited');
     }
 
-    if (activity.createdBy !== userId) {
-      throw new ForbiddenException('You can only edit your own activities');
-    }
+    // if (activity.createdBy !== userId) {
+    //   throw new ForbiddenException('You can only edit your own activities');
+    // }
 
     // Validate times if provided
     if (updateActivityDto.startTime || updateActivityDto.endTime) {
