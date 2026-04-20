@@ -1,4 +1,4 @@
-export const INIT_CRITERIA_GROUPS = [
+﻿export const INIT_CRITERIA_GROUPS = [
   {
     id: 1,
     name: 'Đạo đức tốt',

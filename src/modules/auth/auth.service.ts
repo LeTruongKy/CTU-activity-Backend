@@ -1,4 +1,4 @@
-import {
+﻿import {
   BadRequestException,
   ForbiddenException,
   Injectable,
@@ -137,7 +137,6 @@ export class AuthService {
 
   async register(registerDto: RegisterDto) {
     const { email, password, fullName, studentCode, unitId } = registerDto;
-    console.log('Registering user with email:', email, 'and unitId:', unitId);
     // Verify unit exists
     const unit = await this.unitsService.findOne(unitId);
     if (!unit) {

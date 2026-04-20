@@ -1,4 +1,4 @@
-import {
+﻿import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
@@ -48,11 +48,11 @@ export class Activity {
   @JoinColumn({ name: 'unitId' })
   unit: Unit;
 
-  // ✅ createdBy: Explicitly set UUID column for creator reference
+  // âœ… createdBy: Explicitly set UUID column for creator reference
   @Column({ type: 'uuid', nullable: false })
   createdBy: string;
 
-  // ✅ creator: Relationship to User entity (lazy-loaded)
+  // âœ… creator: Relationship to User entity (lazy-loaded)
   @ManyToOne(() => User, { nullable: false, onDelete: 'SET NULL' })
   @JoinColumn({ name: 'createdBy' })
   creator: User;
@@ -90,7 +90,7 @@ export class Activity {
   approvedAt: Date | null;
 
   /**
-   * 🎯 CRITERIA GROUP LINK
+   * ðŸŽ¯ CRITERIA GROUP LINK
    * Links activity to a criteria group for automatic criteria tracking
    */
   @Column({ type: 'integer', nullable: true })
@@ -101,7 +101,7 @@ export class Activity {
   criteriaGroup: CriteriaGroup | null;
 
   /**
-   * 🔐 QR CODE FIELDS (SECURE)
+   * ðŸ” QR CODE FIELDS (SECURE)
    */
   @Column({ type: 'varchar', unique: true, nullable: true, select: false })
   qrSecret: string | null; // Unique secret for this activity

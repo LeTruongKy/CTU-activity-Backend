@@ -1,4 +1,4 @@
-export const INIT_UNITS = [
+﻿export const INIT_UNITS = [
   {
     id: 1,
     name: 'Liên Chi Hội Sinh Viên Cần Thơ',

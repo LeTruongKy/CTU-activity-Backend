@@ -1,4 +1,4 @@
-import { IsArray, IsNumber, ArrayNotEmpty } from 'class-validator';
+﻿import { IsArray, IsNumber, ArrayNotEmpty } from 'class-validator';
 
 /**
  * DTO for updating user's preferred categories/interests

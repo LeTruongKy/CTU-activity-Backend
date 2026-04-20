@@ -1,4 +1,4 @@
-import { IsUUID, IsInt, IsArray, Min, IsOptional, IsNumber } from 'class-validator';
+﻿import { IsUUID, IsInt, IsArray, Min, IsOptional, IsNumber } from 'class-validator';
 
 export class CreateUserInterestDto {
   @IsUUID()

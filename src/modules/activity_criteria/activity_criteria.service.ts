@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+﻿import { Injectable } from '@nestjs/common';
 import { CreateActivityCriterionDto } from './dto/create-activity_criterion.dto';
 import { UpdateActivityCriterionDto } from './dto/update-activity_criterion.dto';
 

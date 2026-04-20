@@ -1,4 +1,4 @@
-export const INIT_ROLES = [
+﻿export const INIT_ROLES = [
   {
     id: 1,
     name: 'ADMIN',

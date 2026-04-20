@@ -1,9 +1,9 @@
-import { Injectable, Logger } from '@nestjs/common';
+﻿import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as crypto from 'crypto';
 
 /**
- * 🔐 QR URL SERVICE
+ * ðŸ” QR URL SERVICE
  *
  * Generates QR URLs with cryptographic signatures for activity check-in.
  * 

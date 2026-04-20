@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, InternalServerErrorException, Logger } from '@nestjs/common';
+﻿import { Injectable, NotFoundException, InternalServerErrorException, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
@@ -9,13 +9,13 @@ import { Activity } from '../activities/entities/activity.entity';
 import { ActivityCriterion } from '../activity_criteria/entities/activity_criterion.entity';
 
 /**
- * SV5T Service - Manages Student of 5 Merits (Sinh Viên 5 Tốt) calculations
+ * SV5T Service - Manages Student of 5 Merits (Sinh ViÃªn 5 Tá»‘t) calculations
  * Calculates user progress across 5 merit categories:
- * 1. Đạo đức tốt (Ethics) - 3 criteria
- * 2. Học tập tốt (Academic Excellence) - 1 criterion
- * 3. Thể lực tốt (Physical Fitness) - 2 criteria
- * 4. Tình nguyện tốt (Volunteering) - 3 criteria
- * 5. Hội nhập tốt (Social Integration) - 3 criteria
+ * 1. Äáº¡o Ä‘á»©c tá»‘t (Ethics) - 3 criteria
+ * 2. Há»c táº­p tá»‘t (Academic Excellence) - 1 criterion
+ * 3. Thá»ƒ lá»±c tá»‘t (Physical Fitness) - 2 criteria
+ * 4. TÃ¬nh nguyá»‡n tá»‘t (Volunteering) - 3 criteria
+ * 5. Há»™i nháº­p tá»‘t (Social Integration) - 3 criteria
  */
 @Injectable()
 export class SV5tService {
@@ -66,14 +66,14 @@ export class SV5tService {
       // ============================================================
       const verifiedRegistrations = await this.registrationsRepository
         .createQueryBuilder('reg')
-        // Bỏ select() và addSelect() vì getMany() sẽ tự động map đúng entity
+        // Bá» select() vÃ  addSelect() vÃ¬ getMany() sáº½ tá»± Ä‘á»™ng map Ä‘Ãºng entity
         .where('reg.userId = :userId', { userId })
-        // Dùng đúng cột proofStatus cho chữ 'VERIFIED' (tránh lỗi Database)
+        // DÃ¹ng Ä‘Ãºng cá»™t proofStatus cho chá»¯ 'VERIFIED' (trÃ¡nh lá»—i Database)
         .andWhere('reg.proofStatus = :proofStatus', { proofStatus: 'VERIFIED' }) 
         .getMany();
 
       const activityIds = verifiedRegistrations
-        .map((reg) => reg.activityId) // Dùng đúng tên thuộc tính trong Entity: activityId
+        .map((reg) => reg.activityId) // DÃ¹ng Ä‘Ãºng tÃªn thuá»™c tÃ­nh trong Entity: activityId
         .filter((id) => id !== null && id !== undefined);
 
       this.logger.debug(
@@ -398,7 +398,7 @@ export class SV5tService {
         verified_at: reg.checkInAt || null,
         criteria_satisfied: reg.activity.activityCriteria
           ? reg.activity.activityCriteria.map((ac) => ({
-              code: ac.criterion.code ?? 'N/A', // <-- SỬA Ở ĐÂY: Thêm '?? 'N/A'' để xử lý null
+              code: ac.criterion.code ?? 'N/A', // <-- Sá»¬A á»ž ÄÃ‚Y: ThÃªm '?? 'N/A'' Ä‘á»ƒ xá»­ lÃ½ null
               name: ac.criterion.name,
               group_name: ac.criterion.group?.name || 'Unknown',
             }))

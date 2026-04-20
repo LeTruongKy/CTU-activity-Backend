@@ -1,4 +1,4 @@
-// Export all sample data
+﻿// Export all sample data
 export { INIT_ROLES } from './sample.roles';
 export { INIT_PERMISSIONS } from './sample.permissions';
 export { INIT_ROLE_PERMISSIONS } from './sample.role_permissions';

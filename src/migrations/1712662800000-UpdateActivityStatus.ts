@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from 'typeorm';
+﻿import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class UpdateActivityStatus1712662800000 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -46,7 +46,6 @@ export class UpdateActivityStatus1712662800000 implements MigrationInterface {
       ALTER TYPE "activities_status_enum_new" RENAME TO "activities_status_enum";
     `);
 
-    console.log('✅ Migration: UpdateActivityStatus completed successfully');
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
@@ -65,6 +64,5 @@ export class UpdateActivityStatus1712662800000 implements MigrationInterface {
       ALTER COLUMN "status" SET DEFAULT 'DRAFT';
     `);
 
-    console.log('✅ Migration: UpdateActivityStatus rolled back');
   }
 }

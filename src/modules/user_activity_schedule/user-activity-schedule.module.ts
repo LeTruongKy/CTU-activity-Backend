@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+﻿import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserActivitySchedule } from './entities/user_activity_schedule.entity';
 import { Activity } from '../activities/entities/activity.entity';

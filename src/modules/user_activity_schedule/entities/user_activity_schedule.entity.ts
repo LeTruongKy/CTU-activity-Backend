@@ -1,4 +1,4 @@
-import {
+﻿import {
   Entity,
   PrimaryGeneratedColumn,
   ManyToOne,
@@ -33,7 +33,7 @@ export class UserActivitySchedule {
   isActive: boolean;
 
   /**
-   * 🔗 Foreign Key: User (CASCADE delete)
+   * ðŸ”— Foreign Key: User (CASCADE delete)
    * When user is deleted, all their schedules are deleted
    */
   @ManyToOne(() => User, { 
@@ -45,7 +45,7 @@ export class UserActivitySchedule {
   user: User;
 
   /**
-   * 🔗 Foreign Key: Activity (CASCADE delete)
+   * ðŸ”— Foreign Key: Activity (CASCADE delete)
    * When activity is deleted, all its schedules are deleted
    */
   @ManyToOne(() => Activity, (activity) => activity.userSchedules, { 

@@ -1,1 +1,1 @@
-export class CreateActivityTagDto {}
+﻿export class CreateActivityTagDto {}

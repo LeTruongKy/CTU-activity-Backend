@@ -1,4 +1,4 @@
-import { IsNumber, IsString, IsOptional, IsArray, Min, Max } from 'class-validator';
+﻿import { IsNumber, IsString, IsOptional, IsArray, Min, Max } from 'class-validator';
 
 export class GetRecommendationsQueryDto {
   @IsOptional()

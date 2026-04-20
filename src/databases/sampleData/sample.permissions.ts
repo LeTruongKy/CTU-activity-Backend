@@ -1,4 +1,4 @@
-export const INIT_PERMISSIONS = [
+﻿export const INIT_PERMISSIONS = [
   // Activity permissions
   {
     id: 1,

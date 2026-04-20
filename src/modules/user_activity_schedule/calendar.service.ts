@@ -1,4 +1,4 @@
-import { Injectable, Logger, BadRequestException } from '@nestjs/common';
+﻿import { Injectable, Logger, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, IsNull, In } from 'typeorm';
 import { UserActivitySchedule } from './entities/user_activity_schedule.entity';
@@ -22,7 +22,7 @@ export class CalendarService {
   ) {}
 
   /**
-   * 📅 Check for time conflicts
+   * ðŸ“… Check for time conflicts
    *
    * OVERLAP LOGIC:
    * Two intervals overlap if: (startA < endB) AND (endA > startB)
@@ -79,7 +79,7 @@ export class CalendarService {
   }
 
   /**
-   * 📅 Add activity to user's schedule
+   * ðŸ“… Add activity to user's schedule
    */
   async addToSchedule(
     userId: string,
@@ -103,7 +103,7 @@ export class CalendarService {
   }
 
   /**
-   * 📅 Remove activity from schedule
+   * ðŸ“… Remove activity from schedule
    */
   async removeFromSchedule(
     userId: string,
@@ -127,7 +127,7 @@ export class CalendarService {
   }
 
   /**
-   * 📅 Get user calendar for month
+   * ðŸ“… Get user calendar for month
    * Returns structured CalendarMonth with days and events grouped by date
    */
   async getUserCalendar(
@@ -135,9 +135,6 @@ export class CalendarService {
     year: number,
     month: number,
   ): Promise<CalendarMonthDto> {
-    console.log(
-      `Getting calendar for user=${userId}, year=${year}, month=${month}`,
-    );
 
     const startOfMonth = new Date(year, month - 1, 1);
     const endOfMonth = new Date(year, month, 0, 23, 59, 59);
@@ -228,7 +225,7 @@ export class CalendarService {
   }
 
   /**
-   * 📅 Get user activities for specific date
+   * ðŸ“… Get user activities for specific date
    */
   async getUserActivitiesForDate(userId: string, date: Date) {
     this.logger.debug(`Getting activities for user=${userId}, date`);
@@ -251,7 +248,7 @@ export class CalendarService {
   }
 
   /**
-   * 📅 Clear schedule (used when registration cancelled)
+   * ðŸ“… Clear schedule (used when registration cancelled)
    */
   async clearSchedule(userId: string, activityId: number): Promise<void> {
     this.logger.debug(

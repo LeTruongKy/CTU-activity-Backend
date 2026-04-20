@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+﻿import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ActivityCategory } from './entities/activity_category.entity';
 import { ActivityCategoriesService } from './activity_categories.service';

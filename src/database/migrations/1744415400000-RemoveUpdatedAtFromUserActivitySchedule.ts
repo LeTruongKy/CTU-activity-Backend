@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from 'typeorm';
+﻿import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class RemoveUpdatedAtFromUserActivitySchedule1744415400000
   implements MigrationInterface {

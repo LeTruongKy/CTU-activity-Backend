@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+﻿import { Injectable, BadRequestException, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import type { Express } from 'express';
@@ -93,6 +93,16 @@ export class UsersService {
     }
     if (updateUserDto.major !== undefined) {
       updateData.major = updateUserDto.major;
+    }
+    if (updateUserDto.studentCode !== undefined) {
+      // Check if studentCode already exists for other users
+      const existingUser = await this.usersRepository.findOne({
+        where: { studentCode: updateUserDto.studentCode },
+      });
+      if (existingUser && existingUser.id !== id) {
+        throw new BadRequestException('Student code already exists');
+      }
+      updateData.studentCode = updateUserDto.studentCode;
     }
     if (updateUserDto.avatarUrl !== undefined) {
       updateData.avatarUrl = updateUserDto.avatarUrl;

@@ -1,4 +1,4 @@
-import { IsNumber, IsString } from 'class-validator';
+﻿import { IsNumber, IsString } from 'class-validator';
 
 /**
  * DTO for QR code check-in

@@ -1,4 +1,4 @@
-import {
+﻿import {
   Controller,
   Get,
   Post,
@@ -65,7 +65,7 @@ export class UserInterestsController {
     };
   }
 
-  // ✅ NEW: Get interests for a specific user
+  // âœ… NEW: Get interests for a specific user
   @Get('by-user/:userId')
   async findByUserId(@Param('userId') userId: string) {
     const interests = await this.userInterestsService.findByUserId(userId);
@@ -75,7 +75,7 @@ export class UserInterestsController {
     };
   }
 
-  // ✅ NEW: Update/Create interests for current user
+  // âœ… NEW: Update/Create interests for current user
   @Post('me/update')
   @UseGuards(JwtAuthGuard)
   async updateMyInterests(
@@ -93,7 +93,7 @@ export class UserInterestsController {
     };
   }
 
-  // ✅ NEW: Get interests for current authenticated user
+  // âœ… NEW: Get interests for current authenticated user
   @Get('me/interests')
   @UseGuards(JwtAuthGuard)
   async getMyInterests(@Req() req: any) {

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+﻿import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { StudentProgressService } from './student_progress.service';
 import { StudentProgressController } from './student_progress.controller';

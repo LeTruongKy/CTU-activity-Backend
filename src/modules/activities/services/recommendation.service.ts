@@ -1,4 +1,4 @@
-import { Injectable, HttpException, HttpStatus, Logger } from '@nestjs/common';
+﻿import { Injectable, HttpException, HttpStatus, Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import { AxiosResponse } from 'axios';
@@ -25,10 +25,10 @@ export class RecommendationService {
   constructor(private readonly httpService: HttpService) {}
 
   /**
-   * Gọi Python Service để lấy danh sách gợi ý hoạt động
-   * @param userId UUID của user
-   * @param limit Số lượng gợi ý (mặc định: 10)
-   * @returns Danh sách gợi ý từ Python Service
+   * Gá»i Python Service Ä‘á»ƒ láº¥y danh sÃ¡ch gá»£i Ã½ hoáº¡t Ä‘á»™ng
+   * @param userId UUID cá»§a user
+   * @param limit Sá»‘ lÆ°á»£ng gá»£i Ã½ (máº·c Ä‘á»‹nh: 10)
+   * @returns Danh sÃ¡ch gá»£i Ã½ tá»« Python Service
    */
   async getRecommendationFromPython(
     userId: string,
@@ -41,7 +41,7 @@ export class RecommendationService {
       const response: AxiosResponse<RecommendationResponse> = await firstValueFrom(
         this.httpService.get<RecommendationResponse>(url, {
           params: { limit },
-          timeout: 5000, // 5 giây timeout
+          timeout: 5000, // 5 giÃ¢y timeout
         }),
       );
 
@@ -68,9 +68,9 @@ export class RecommendationService {
   }
 
   /**
-   * Lấy thông tin profile của user từ Python Service
-   * @param userId UUID của user
-   * @returns Thông tin sở thích của user
+   * Láº¥y thÃ´ng tin profile cá»§a user tá»« Python Service
+   * @param userId UUID cá»§a user
+   * @returns ThÃ´ng tin sá»Ÿ thÃ­ch cá»§a user
    */
   async getUserProfileFromPython(userId: string) {
     try {
@@ -87,9 +87,9 @@ export class RecommendationService {
   }
 
   /**
-   * Lấy thông tin chi tiết của một hoạt động từ Python Service
-   * @param activityId ID của hoạt động
-   * @returns Thông tin hoạt động
+   * Láº¥y thÃ´ng tin chi tiáº¿t cá»§a má»™t hoáº¡t Ä‘á»™ng tá»« Python Service
+   * @param activityId ID cá»§a hoáº¡t Ä‘á»™ng
+   * @returns ThÃ´ng tin hoáº¡t Ä‘á»™ng
    */
   async getActivityDetailsFromPython(activityId: number) {
     try {
@@ -108,8 +108,8 @@ export class RecommendationService {
   }
 
   /**
-   * Kiểm tra kết nối tới Python Service
-   * @returns true nếu service hoạt động
+   * Kiá»ƒm tra káº¿t ná»‘i tá»›i Python Service
+   * @returns true náº¿u service hoáº¡t Ä‘á»™ng
    */
   async healthCheck(): Promise<boolean> {
     try {

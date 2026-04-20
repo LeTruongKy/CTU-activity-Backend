@@ -1,4 +1,4 @@
-export const INIT_TAGS = [
+﻿export const INIT_TAGS = [
   { id: 1, name: 'Lập trình' },
   { id: 2, name: 'Thiết kế đồ họa' },
   { id: 3, name: 'Tình nguyện' },

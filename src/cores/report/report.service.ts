@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common';
+﻿import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as XLSX from 'xlsx';
@@ -33,11 +33,11 @@ export class ReportService {
 
       // Prepare data for Excel
       const data = registrations.map((reg) => ({
-        'Full Name': reg.user?.fullName || '',
-        'Student Code': reg.user?.studentCode || '',
+        'Họ và Tên': reg.user?.fullName || '',
+        'Mã số': reg.user?.studentCode || '',
         Email: reg.user?.email || '',
-        'Proof Status': reg.proofStatus || 'PENDING',
-        'Registered Date': reg.registeredAt
+        'Trạng thái minh chứng': (reg.proofStatus === 'VERIFIED' ? 'Đã minh chứng' : 'Chưa minh chứng'),
+        'Ngày đăng ký': reg.registeredAt
           ? new Date(reg.registeredAt).toLocaleDateString('en-US')
           : '',
       }));
@@ -45,7 +45,7 @@ export class ReportService {
       // Create workbook and worksheet
       const workbook = XLSX.utils.book_new();
       const worksheet = XLSX.utils.json_to_sheet(data, {
-        header: ['Full Name', 'Student Code', 'Email', 'Proof Status', 'Registered Date'],
+        header: ['Họ và Tên', 'Mã số', 'Email', 'Trạng thái minh chứng', 'Ngày đăng ký'],
       });
 
       // Set column widths

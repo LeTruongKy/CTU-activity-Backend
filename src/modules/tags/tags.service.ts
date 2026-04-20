@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+﻿import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateTagDto } from './dto/create-tag.dto';
@@ -67,7 +67,7 @@ export class TagsService {
     await this.tagsRepository.remove(tag);
   }
 
-  // ✅ NEW: Find multiple tags by IDs
+  // âœ… NEW: Find multiple tags by IDs
   async findByIds(ids: number[]): Promise<Tag[]> {
     if (!ids || ids.length === 0) {
       return [];

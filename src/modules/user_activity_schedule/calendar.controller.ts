@@ -1,4 +1,4 @@
-import {
+﻿import {
   Controller,
   Get,
   Post,
@@ -32,10 +32,6 @@ export class CalendarController {
     @Query('year', ParseIntPipe) year: number,
     @Query('month', ParseIntPipe) month: number,
   ): Promise<CalendarMonthDto> {
-    console.log(
-      `Getting calendar for user=${req.user.id}, year=${year}, month=${month}`,
-    );
-
     if (month < 1 || month > 12) {
       throw new Error('Month must be between 1 and 12');
     }

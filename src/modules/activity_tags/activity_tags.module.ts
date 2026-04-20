@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+﻿import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ActivityTagsService } from './activity_tags.service';
 import { ActivityTagsController } from './activity_tags.controller';

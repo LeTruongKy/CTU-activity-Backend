@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
+﻿import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserInterestDto } from './dto/create-user_interest.dto';
@@ -83,7 +83,7 @@ export class UserInterestsService {
     await this.userInterestsRepository.remove(interest);
   }
 
-  // ✅ NEW: Get interests for a specific user
+  // âœ… NEW: Get interests for a specific user
   async findByUserId(userId: string): Promise<UserInterest[]> {
     return await this.userInterestsRepository.find({
       where: { userId },
@@ -91,7 +91,7 @@ export class UserInterestsService {
     });
   }
 
-  // ✅ NEW: Delete all interests for a user and create new ones
+  // âœ… NEW: Delete all interests for a user and create new ones
   async updateUserInterests(
     userId: string,
     tagIds: number[],
@@ -126,7 +126,7 @@ export class UserInterestsService {
     return await this.userInterestsRepository.save(interests);
   }
 
-  // ✅ NEW: Increment weight for user's interests (for interaction tracking)
+  // âœ… NEW: Increment weight for user's interests (for interaction tracking)
   async incrementWeight(
     userId: string,
     tagIds: number[],
@@ -177,5 +177,4 @@ export class UserInterestsService {
     return updatedInterests;
   }
 }
-
 

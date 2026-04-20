@@ -1,9 +1,9 @@
-import { Injectable, Logger, BadRequestException } from '@nestjs/common';
+﻿import { Injectable, Logger, BadRequestException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as crypto from 'crypto';
 
 /**
- * 🔐 QR CODE SERVICE
+ * ðŸ” QR CODE SERVICE
  *
  * Provides secure QR code generation and validation
  *
@@ -40,7 +40,7 @@ export class QRService {
   }
 
   /**
-   * 📝 Generate QR data payload
+   * ðŸ“ Generate QR data payload
    *
    * Format: activityId:secret:expiration:signature
    * Signature is HMAC-SHA256 of the payload without signature
@@ -67,7 +67,7 @@ export class QRService {
   }
 
   /**
-   * 🔐 Validate QR payload
+   * ðŸ” Validate QR payload
    *
    * Checks:
    * 1. Signature validity (prevents tampering)
@@ -138,7 +138,7 @@ export class QRService {
   }
 
   /**
-   * 🎯 Generate full QR check-in URL
+   * ðŸŽ¯ Generate full QR check-in URL
    *
    * URL format: https://domain.com/qr/check-in?data=...
    */
@@ -151,7 +151,7 @@ export class QRService {
   }
 
   /**
-   * 🔍 Decode QR payload from URL parameter
+   * ðŸ” Decode QR payload from URL parameter
    */
   decodeQRPayload(encodedPayload: string): string {
     try {
@@ -162,7 +162,7 @@ export class QRService {
   }
 
   /**
-   * 📊 Calculate QR expiration time
+   * ðŸ“Š Calculate QR expiration time
    * Default: activity end + 1 hour grace period
    */
   calculateQRExpiration(activityEndTime: Date): Date {

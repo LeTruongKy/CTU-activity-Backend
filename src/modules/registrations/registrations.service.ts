@@ -101,7 +101,6 @@ export class RegistrationsService {
         activityId,
         proofStatus: 'PENDING',
       });
-      console.log('Creating registration with data:', registration)
       const saved = await this.registrationsRepository.save(registration);
 
       // Add to user activity schedule
@@ -201,7 +200,6 @@ export class RegistrationsService {
   ): Promise<Registration> {
     try {
       // 1. Find activity
-      console.log('Checking in via QR with data:', { userId, activityId, timestamp, signature })
       const activity = await this.activitiesRepository
         .createQueryBuilder('activity')
         .addSelect('activity.qrSecret') 
@@ -210,7 +208,6 @@ export class RegistrationsService {
       if (!activity) {
         throw new NotFoundException(`Activity with ID ${activityId} not found`);
       }
-      console.log('Found activity for QR check-in:', activity)
       // 2. Verify signature using QrUrlService
       const isSignatureValid = this.qrUrlService.verifySignature(
         activityId,

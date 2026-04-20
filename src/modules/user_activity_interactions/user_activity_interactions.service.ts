@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+﻿import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, MoreThan } from 'typeorm';
 import { UserActivityInteraction, InteractionType } from './entities/user_activity_interaction.entity';
@@ -56,7 +56,7 @@ export class UserActivityInteractionsService {
         });
 
         if (recentView) {
-          // Skip if already viewed in last 5 minutes
+          // Skip if already viewed in last 60 minutes
           return null;
         }
       }
@@ -80,8 +80,6 @@ export class UserActivityInteractionsService {
         }
       }
 
-      console.log('[USER-INTERACTIONS] Tags resolved:', tagsToUpdate);
-
       // Step 3: Save interaction record
       const interaction = this.interactionsRepository.create({
         userId,
@@ -89,11 +87,9 @@ export class UserActivityInteractionsService {
         action,
       });
       const saved = await this.interactionsRepository.save(interaction);
-      console.log(`[USER-INTERACTIONS] Tracked ${action} for user ${userId} on activity ${activityId} with tags ${tagsToUpdate.join(',')}`);
       // Step 4: Async update user interests (fire-and-forget)
       if (tagsToUpdate.length > 0) {
         const weight = this.interactionWeights[action] || 1;
-        console.log(`[USER-INTERACTIONS] Updating interests for user ${userId} with increment ${weight} for tags ${tagsToUpdate.join(',')}`);
         this.updateUserInterests(userId, tagsToUpdate, weight).catch((error) => {
           console.error(
             `Failed to update interests for user ${userId}:`,

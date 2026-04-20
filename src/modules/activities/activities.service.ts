@@ -1,4 +1,4 @@
-import {
+﻿import {
   Injectable,
   BadRequestException,
   NotFoundException,
@@ -41,7 +41,6 @@ export class ActivitiesService {
       if (!creatorId) {
         throw new BadRequestException('Creator ID is required');
       }
-
       // Validate unit exists
       const unit = await this.unitsService.findOne(createActivityDto.unitId);
       if (!unit) {
@@ -79,7 +78,7 @@ export class ActivitiesService {
         }
       }
 
-      // ✅ Generate QR Secret
+      // âœ… Generate QR Secret
       const qrSecret = this.qrUrlService.generateQrSecret();
 
       // Create activity with explicit createdBy assignment
@@ -94,14 +93,14 @@ export class ActivitiesService {
         endTime,
         maxParticipants: createActivityDto.maxParticipants || null,
         status: 'PENDING',
-        createdBy: { id: creatorId } as any, // ✅ Relationship object for ManyToOne
-        qrSecret, // ✅ Store QR secret
+        createdBy: { id: creatorId } as any, // âœ… Relationship object for ManyToOne
+        qrSecret, // âœ… Store QR secret
         qrCodeUrl: '', // Temporary, will update with actual ID
       });
 
       const saved = await this.activitiesRepository.save(activity);
 
-      // ✅ Generate QR URL with actual activity ID
+      // âœ… Generate QR URL with actual activity ID
       saved.qrCodeUrl = this.qrUrlService.generateQrUrl(saved.id, saved.qrSecret);
       const savedWithQr = await this.activitiesRepository.save(saved);
 
@@ -146,11 +145,11 @@ export class ActivitiesService {
     limit?: number;
   }) {
     try {
-      const { search, categoryId, unitId, status, page = 1, limit = 20 } = filters;
+      const { search, categoryId, unitId, status, page = 1, limit = 100 } = filters;
 
       // Validate pagination
       if (page < 1 || limit < 1 || limit > 100) {
-        throw new BadRequestException('Page must be ≥ 1, limit must be 1-100');
+        throw new BadRequestException('Page must be â‰¥ 1, limit must be 1-100');
       }
 
       const query = this.activitiesRepository.createQueryBuilder('activity');
@@ -237,52 +236,123 @@ export class ActivitiesService {
     return this.formatActivityResponse(activity);
   }
 
-  async update(id: number, updateActivityDto: UpdateActivityDto, userId: string) {
+  async update(id: number, updateActivityDto: UpdateActivityDto, userId: string, posterFile?: Express.Multer.File) {
     const activity = await this.findOne(id);
-
+    
     // Only PENDING activities can be edited (not yet approved)
     if (activity.status !== 'PENDING') {
       throw new ForbiddenException('Only PENDING activities can be edited');
     }
 
-    // if (activity.createdBy !== userId) {
-    //   throw new ForbiddenException('You can only edit your own activities');
-    // }
+    // Only update fields that are provided (not undefined)
+    const updateData: any = {};
+    if (updateActivityDto.title !== undefined) {
+      updateData.title = updateActivityDto.title;
+    }
+    if (updateActivityDto.description !== undefined) {
+      updateData.description = updateActivityDto.description;
+    }
+    if (updateActivityDto.location !== undefined) {
+      updateData.location = updateActivityDto.location;
+    }
+    if (updateActivityDto.categoryId !== undefined) {
+      if (updateActivityDto.categoryId !== null) {
+        const category = await this.categoriesService.findOne(updateActivityDto.categoryId);
+        if (!category) {
+          throw new NotFoundException(
+            `Category with ID ${updateActivityDto.categoryId} not found`,
+          );
+        }
+      }
+      updateData.categoryId = updateActivityDto.categoryId;
+    }
+    if (updateActivityDto.startTime !== undefined) {
+      updateData.startTime = new Date(updateActivityDto.startTime);
+    }
+    if (updateActivityDto.endTime !== undefined) {
+      updateData.endTime = new Date(updateActivityDto.endTime);
+    }
+    if (updateActivityDto.maxParticipants !== undefined) {
+      updateData.maxParticipants = updateActivityDto.maxParticipants;
+    }
 
-    // Validate times if provided
-    if (updateActivityDto.startTime || updateActivityDto.endTime) {
-      const startTime = updateActivityDto.startTime
-        ? new Date(updateActivityDto.startTime)
-        : activity.startTime;
-      const endTime = updateActivityDto.endTime ? new Date(updateActivityDto.endTime) : activity.endTime;
-
+    // Validate times if both provided
+    if (updateData.startTime || updateData.endTime) {
+      const startTime = updateData.startTime || activity.startTime;
+      const endTime = updateData.endTime || activity.endTime;
       if (startTime && endTime && startTime >= endTime) {
         throw new BadRequestException('End time must be after start time');
       }
     }
 
-    // Validate category if provided
-    if (updateActivityDto.categoryId !== undefined && updateActivityDto.categoryId !== null) {
-      const category = await this.categoriesService.findOne(updateActivityDto.categoryId);
-      if (!category) {
-        throw new NotFoundException(
-          `Category with ID ${updateActivityDto.categoryId} not found`,
+    // Handle poster file upload
+    if (posterFile) {
+      try {
+        const uploadResult = await this.cloudinaryService.uploadImageToFolder(
+          posterFile,
+          'ctu_activities',
+        );
+        updateData.posterUrl = uploadResult.secure_url;
+      } catch (error) {
+        throw new BadRequestException(
+          `Poster upload failed: ${error.message}`,
         );
       }
     }
 
     try {
-      await this.activitiesRepository.update(id, updateActivityDto);
+      // Update activity fields
+      if (Object.keys(updateData).length > 0) {
+        await this.activitiesRepository.update(id, updateData);
+      }
+
+      // Update tags if provided
+      if (updateActivityDto.tagIds !== undefined) {
+        // Remove old tags
+        await this.activityTagRepository.delete({ activityId: id });
+        
+        // Add new tags
+        if (updateActivityDto.tagIds.length > 0) {
+          const activityTags = updateActivityDto.tagIds.map((tagId) =>
+            this.activityTagRepository.create({
+              activityId: id,
+              tagId,
+            })
+          );
+          await this.activityTagRepository.save(activityTags);
+        }
+      }
+
+      // Update criteria if provided
+      if (updateActivityDto.criteriaIds !== undefined) {
+        // Remove old criteria
+        await this.activityCriterionRepository.delete({ activityId: id });
+        
+        // Add new criteria
+        if (updateActivityDto.criteriaIds.length > 0) {
+          const activityCriteria = updateActivityDto.criteriaIds.map((criterionId) =>
+            this.activityCriterionRepository.create({
+              activityId: id,
+              criterionId,
+            })
+          );
+          await this.activityCriterionRepository.save(activityCriteria);
+        }
+      }
+
       return this.findOneFormatted(id);
     } catch (error) {
+      if (error instanceof BadRequestException || error instanceof NotFoundException || error instanceof ForbiddenException) {
+        throw error;
+      }
       console.error('Error updating activity:', error);
       throw new InternalServerErrorException('Failed to update activity');
     }
   }
 
   /**
-   * 🔄 STATUS WORKFLOW
-   * PENDING (created) → PUBLISHED (approved) → COMPLETED (done) or CANCELLED (cancelled)
+   * ðŸ”„ STATUS WORKFLOW
+   * PENDING (created) â†’ PUBLISHED (approved) â†’ COMPLETED (done) or CANCELLED (cancelled)
    */
   async updateStatus(
     id: number,
@@ -377,11 +447,11 @@ export class ActivitiesService {
     activity: Activity,
   ) {
     /**
-     * 🔄 STATUS TRANSITIONS
-     * PENDING → PUBLISHED (approve) | CANCELLED (reject)
-     * PUBLISHED → CANCELLED (cancel) | COMPLETED (mark done, after activity ends)
-     * CANCELLED → (no transitions, final)
-     * COMPLETED → (no transitions, final)
+     * ðŸ”„ STATUS TRANSITIONS
+     * PENDING â†’ PUBLISHED (approve) | CANCELLED (reject)
+     * PUBLISHED â†’ CANCELLED (cancel) | COMPLETED (mark done, after activity ends)
+     * CANCELLED â†’ (no transitions, final)
+     * COMPLETED â†’ (no transitions, final)
      */
     const validTransitions: Record<string, string[]> = {
       PENDING: ['PUBLISHED', 'CANCELLED'],
@@ -389,7 +459,6 @@ export class ActivitiesService {
       CANCELLED: [],
       COMPLETED: [],
     };
-    console.log(`Validating status transition from ${currentStatus} to ${newStatus} for user ${userId} with role ${userRole}`, !validTransitions[currentStatus]?.includes(newStatus));
     if (!validTransitions[currentStatus]?.includes(newStatus)) {
       throw new BadRequestException(
         `Cannot transition from ${currentStatus} to ${newStatus}`,
@@ -428,8 +497,8 @@ export class ActivitiesService {
       },
       location: activity.location,
       poster_url: activity.posterUrl,
-      qrCodeUrl: activity.qrCodeUrl, // ✅ Include QR code URL
-      qr_code_url: activity.qrCodeUrl, // ✅ snake_case alternative
+      qrCodeUrl: activity.qrCodeUrl, // âœ… Include QR code URL
+      qr_code_url: activity.qrCodeUrl, // âœ… snake_case alternative
       start_time: activity.startTime?.toISOString(),
       end_time: activity.endTime?.toISOString(),
       max_participants: activity.maxParticipants,
@@ -439,11 +508,13 @@ export class ActivitiesService {
         tag_id: at.tag?.id,
         name: at.tag?.name,
       })),
+      tagIds: (activity.activityTags || []).map((at) => at.tag?.id).filter(Boolean),
       criteria: (activity.activityCriteria || []).map((ac) => ({
         criterion_id: ac.criterion?.id,
         name: ac.criterion?.name,
         description: ac.criterion?.description,
       })),
+      criteriaIds: (activity.activityCriteria || []).map((ac) => ac.criterion?.id).filter(Boolean),
       created_by: {
         user_id: activity.creator?.id,
         fullName: activity.creator?.fullName,

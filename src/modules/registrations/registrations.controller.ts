@@ -1,4 +1,4 @@
-import {
+﻿import {
   Controller,
   Get,
   Post,
@@ -173,7 +173,6 @@ export class RegistrationsController {
   async getActivityParticipants(
     @Param('activityId', ParseIntPipe) activityId: number,
   ) {
-    console.log("Getting participants for activityId:", activityId);
     const participants = await this.registrationsService.getActivityParticipants(
       activityId,
     );

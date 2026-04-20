@@ -1,4 +1,4 @@
-export const INIT_USER_ROLES = [
+﻿export const INIT_USER_ROLES = [
   // Admin
   {
     userId: '550e8400-e29b-41d4-a716-556655440001',

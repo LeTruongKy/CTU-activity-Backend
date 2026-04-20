@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards, Req } from '@nestjs/common';
+﻿import { Controller, Post, Body, UseGuards, Req } from '@nestjs/common';
 import { Request } from 'express';
 import { UserActivityInteractionsService } from './user_activity_interactions.service';
 import { InteractionType } from './entities/user_activity_interaction.entity';
@@ -78,7 +78,6 @@ export class UserActivityInteractionsController {
     }
 
     try {
-        console.log(`[USER-INTERACTIONS] Tracking REGISTER for user ${userId} on activity ${body.activityId}`);
       // Fire-and-forget: track async without waiting or blocking
       this.userActivityInteractionsService
         .trackInteraction(userId, body.activityId, InteractionType.REGISTER)

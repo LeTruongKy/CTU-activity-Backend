@@ -1,7 +1,7 @@
-import { MigrationInterface, QueryRunner } from 'typeorm';
+﻿import { MigrationInterface, QueryRunner } from 'typeorm';
 
 /**
- * 🔧 MIGRATION: Fix Activity Status Enum
+ * ðŸ”§ MIGRATION: Fix Activity Status Enum
  * 
  * This migration fixes the activities_status_enum to support the correct status values:
  * PENDING -> Created, awaiting approval
@@ -12,14 +12,12 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 export class FixActivityStatusEnum1712750400000 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     // Step 1: Convert status column to string type temporarily
-    console.log('📝 Step 1: Converting status column to varchar...');
     await queryRunner.query(`
       ALTER TABLE "activities" 
       ALTER COLUMN "status" TYPE varchar;
     `);
 
     // Step 2: Normalize existing data to valid enum values
-    console.log('📝 Step 2: Normalizing existing status data...');
     const dataUpdates = [
       `UPDATE "activities" SET "status" = 'PENDING' WHERE "status" IN ('DRAFT', 'PENDING')`,
       `UPDATE "activities" SET "status" = 'PUBLISHED' WHERE "status" IN ('PUBLIC', 'PUBLISHED', 'APPROVED')`,
@@ -37,7 +35,6 @@ export class FixActivityStatusEnum1712750400000 implements MigrationInterface {
     }
 
     // Step 3: Drop old enum type if exists
-    console.log('📝 Step 3: Cleaning up old enum types...');
     await queryRunner.query(`
       DROP TYPE IF EXISTS "activities_status_enum_new" CASCADE;
     `);
@@ -52,24 +49,20 @@ export class FixActivityStatusEnum1712750400000 implements MigrationInterface {
     }
 
     // Step 4: Create new enum type with correct values
-    console.log('📝 Step 4: Creating new enum type...');
     await queryRunner.query(`
       CREATE TYPE "activities_status_enum" AS ENUM('PENDING', 'PUBLISHED', 'CANCELLED', 'COMPLETED');
     `);
 
     // Step 5: Cast column to new enum type
-    console.log('📝 Step 5: Converting column to enum type...');
     await queryRunner.query(`
       ALTER TABLE "activities" 
       ALTER COLUMN "status" TYPE "activities_status_enum" USING "status"::"activities_status_enum",
       ALTER COLUMN "status" SET DEFAULT 'PENDING';
     `);
 
-    console.log('✅ Migration: FixActivityStatusEnum completed successfully');
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    console.log('🔄 Reversing FixActivityStatusEnum migration...');
 
     // Revert: Convert to varchar
     await queryRunner.query(`
@@ -94,6 +87,5 @@ export class FixActivityStatusEnum1712750400000 implements MigrationInterface {
     // Drop new enum
     await queryRunner.query(`DROP TYPE IF EXISTS "activities_status_enum" CASCADE;`);
 
-    console.log('✅ Migration: FixActivityStatusEnum rolled back');
   }
 }

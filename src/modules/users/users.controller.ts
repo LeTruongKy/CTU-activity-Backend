@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, Query, UseInterceptors, UploadedFile, ParseUUIDPipe } from '@nestjs/common';
+﻿import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, Query, UseInterceptors, UploadedFile, ParseUUIDPipe } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import type { Express } from 'express';
 import { UsersService } from './users.service';
@@ -127,7 +127,7 @@ export class UsersController {
 
   /**
    * GET /users/me/sv5t-progress
-   * Get SV5T (Sinh viên 5 tốt) progress for the current user
+   * Get SV5T (Sinh viÃªn 5 tá»‘t) progress for the current user
    * Comprehensive calculation of 5 standards: Ethics, Academic, Fitness, Volunteering, Integration
    */
   @Get('me/sv5t-progress')
@@ -338,7 +338,7 @@ export class UsersController {
   @Patch(':id')
   update(
     @Param('id', new ParseUUIDPipe()) id: string,
-    @Body() updateUserDto: UpdateUserDto
+    @Body() updateUserDto: UpdateUserDto,
   ) {
     return this.usersService.update(id, updateUserDto);
   }

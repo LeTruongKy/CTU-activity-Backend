@@ -1,1 +1,1 @@
-export class CreateActivityCriterionDto {}
+﻿export class CreateActivityCriterionDto {}

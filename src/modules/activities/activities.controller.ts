@@ -1,4 +1,4 @@
-import {
+﻿import {
   Controller,
   Get,
   Post,
@@ -84,7 +84,7 @@ export class ActivitiesController {
   /**
    * GET /activities/recommendations/:userId
    * Get recommended activities for a user based on their interests
-   * ⚠️ MUST come before /:id route to avoid route conflict
+   * âš ï¸ MUST come before /:id route to avoid route conflict
    */
   @Get('recommendations/:userId')
   async getRecommendations(
@@ -135,19 +135,64 @@ export class ActivitiesController {
   /**
    * PATCH /activities/:id
    * Update activity details (only for draft activities)
+   * Supports file upload for poster image
+   * Body can be JSON or FormData with file
    */
   @Patch(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN', 'LCH')
+  @UseInterceptors(FileInterceptor('file'))
   async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateActivityDto: UpdateActivityDto,
-    @Req() req: any,
+    @Body() updateActivityDto: any,
+    @UploadedFile() posterFile?: Express.Multer.File,
+    @Req() req?: any,
   ) {
+    // Handle type conversion from FormData strings to proper types
+    const dto = new UpdateActivityDto();
+    
+    if (updateActivityDto.title !== undefined) dto.title = updateActivityDto.title;
+    if (updateActivityDto.description !== undefined) dto.description = updateActivityDto.description;
+    if (updateActivityDto.location !== undefined) dto.location = updateActivityDto.location;
+    
+    if (updateActivityDto.categoryId !== undefined) {
+      dto.categoryId = typeof updateActivityDto.categoryId === 'string' 
+        ? parseInt(updateActivityDto.categoryId) 
+        : updateActivityDto.categoryId;
+    }
+    
+    if (updateActivityDto.startTime !== undefined) dto.startTime = updateActivityDto.startTime;
+    if (updateActivityDto.endTime !== undefined) dto.endTime = updateActivityDto.endTime;
+    
+    if (updateActivityDto.maxParticipants !== undefined) {
+      dto.maxParticipants = typeof updateActivityDto.maxParticipants === 'string' 
+        ? parseInt(updateActivityDto.maxParticipants) 
+        : updateActivityDto.maxParticipants;
+    }
+    
+    // Parse tagIds from FormData (can be array or multiple values with same key)
+    if (updateActivityDto.tagIds) {
+      if (Array.isArray(updateActivityDto.tagIds)) {
+        dto.tagIds = updateActivityDto.tagIds.map(id => typeof id === 'string' ? parseInt(id) : id);
+      } else if (typeof updateActivityDto.tagIds === 'string') {
+        dto.tagIds = [parseInt(updateActivityDto.tagIds)];
+      }
+    }
+    
+    // Parse criteriaIds from FormData
+    if (updateActivityDto.criteriaIds) {
+      if (Array.isArray(updateActivityDto.criteriaIds)) {
+        dto.criteriaIds = updateActivityDto.criteriaIds.map(id => typeof id === 'string' ? parseInt(id) : id);
+      } else if (typeof updateActivityDto.criteriaIds === 'string') {
+        dto.criteriaIds = [parseInt(updateActivityDto.criteriaIds)];
+      }
+    }
+    
     const activity = await this.activitiesService.update(
       id,
-      updateActivityDto,
+      dto,
       req.user.id,
+      posterFile,
     );
     return {
       message: 'Activity updated successfully',
@@ -157,7 +202,7 @@ export class ActivitiesController {
 
   /**
    * PATCH /activities/:id/status
-   * Update activity status (workflow: PENDING → PUBLIC/CANCEL → COMPLETE)
+   * Update activity status (workflow: PENDING â†’ PUBLIC/CANCEL â†’ COMPLETE)
    */
   @Patch(':id/status')
   @UseGuards(JwtAuthGuard, RolesGuard)

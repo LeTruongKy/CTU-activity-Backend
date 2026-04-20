@@ -1,4 +1,4 @@
-import { IsOptional, IsNumber, IsBoolean, Min, Max } from 'class-validator';
+﻿import { IsOptional, IsNumber, IsBoolean, Min, Max } from 'class-validator';
 
 /**
  * DTO for updating user SV5T tracking fields

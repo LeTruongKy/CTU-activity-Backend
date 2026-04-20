@@ -1,4 +1,4 @@
-import {
+﻿import {
   IsString,
   IsNumber,
   IsOptional,
@@ -57,6 +57,13 @@ export class UpdateActivityDto {
   @Min(1, { each: true })
   @IsOptional()
   tagIds?: number[];
+
+  @Type(() => Number)
+  @IsArray()
+  @IsInt({ each: true })
+  @Min(1, { each: true })
+  @IsOptional()
+  criteriaIds?: number[];
 }
 
 export class UpdateActivityStatusDto {

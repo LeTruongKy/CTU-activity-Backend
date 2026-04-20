@@ -1,4 +1,4 @@
-export const INIT_ACTIVITY_CATEGORIES = [
+﻿export const INIT_ACTIVITY_CATEGORIES = [
   {
     id: 1,
     name: 'Học thuật',

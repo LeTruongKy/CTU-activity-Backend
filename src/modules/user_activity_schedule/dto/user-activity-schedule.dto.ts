@@ -1,4 +1,4 @@
-import { IsUUID, IsNumber, IsISO8601, IsOptional } from 'class-validator';
+﻿import { IsUUID, IsNumber, IsISO8601, IsOptional } from 'class-validator';
 
 export class CreateUserActivityScheduleDto {
   @IsUUID()

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+﻿import { Injectable } from '@nestjs/common';
 import { DataSource, Repository, IsNull } from 'typeorm';
 import { UserActivitySchedule } from './entities/user_activity_schedule.entity';
 import { Activity } from '../activities/entities/activity.entity';
@@ -10,14 +10,14 @@ export class UserActivityScheduleRepository extends Repository<UserActivitySched
   }
 
   /**
-   * 📅 Find overlapping activities for time range
+   * ðŸ“… Find overlapping activities for time range
    * 
    * Overlap logic: (startA < endB) AND (endA > startB)
    * 
    * Example:
    * Activity A: 09:00 - 11:00
-   * Activity B: 10:00 - 12:00  ← Overlaps A
-   * Check: (09:00 < 12:00) AND (11:00 > 10:00) = TRUE ✅
+   * Activity B: 10:00 - 12:00  â† Overlaps A
+   * Check: (09:00 < 12:00) AND (11:00 > 10:00) = TRUE âœ…
    */
   async findConflicts(
     userId: string,
@@ -40,7 +40,7 @@ export class UserActivityScheduleRepository extends Repository<UserActivitySched
   }
 
   /**
-   * 📅 Get user's calendar for a month
+   * ðŸ“… Get user's calendar for a month
    */
   async getUserCalendar(userId: string, year: number, month: number) {
     const startOfMonth = new Date(year, month - 1, 1);
@@ -57,7 +57,7 @@ export class UserActivityScheduleRepository extends Repository<UserActivitySched
   }
 
   /**
-   * 📍 Get user's activities for a specific date
+   * ðŸ“ Get user's activities for a specific date
    */
   async getUserActivitiesForDate(userId: string, date: Date) {
     const startOfDay = new Date(date);
@@ -78,14 +78,14 @@ export class UserActivityScheduleRepository extends Repository<UserActivitySched
   }
 
   /**
-   * 🗑️ Soft delete schedule entry
+   * ðŸ—‘ï¸ Soft delete schedule entry
    */
   async deactivateSchedule(id: string): Promise<void> {
     await this.update(id, { isActive: false });
   }
 
   /**
-   * 🗑️ Soft delete all user schedules for activity
+   * ðŸ—‘ï¸ Soft delete all user schedules for activity
    */
   async deactivateUserActivitySchedules(userId: string, activityId: number): Promise<number> {
     const result = await this.update(

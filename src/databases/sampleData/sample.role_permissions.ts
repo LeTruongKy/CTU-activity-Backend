@@ -1,4 +1,4 @@
-export const INIT_ROLE_PERMISSIONS = [
+﻿export const INIT_ROLE_PERMISSIONS = [
   // ADMIN has all permissions
   { roleId: 1, permissionId: 1 },
   { roleId: 1, permissionId: 2 },
@@ -29,7 +29,7 @@ export const INIT_ROLE_PERMISSIONS = [
   { roleId: 1, permissionId: 27 },
   { roleId: 1, permissionId: 28 },
 
-  // LCH - Liên Chi Hội
+  // LCH - LiÃªn Chi Há»™i
   { roleId: 2, permissionId: 1 }, // activity.create
   { roleId: 2, permissionId: 2 }, // activity.read
   { roleId: 2, permissionId: 3 }, // activity.update
@@ -42,7 +42,7 @@ export const INIT_ROLE_PERMISSIONS = [
   { roleId: 2, permissionId: 23 }, // report.export
   { roleId: 2, permissionId: 25 }, // criteria.read
 
-  // CH - Chi Hội
+  // CH - Chi Há»™i
   { roleId: 3, permissionId: 1 }, // activity.create
   { roleId: 3, permissionId: 2 }, // activity.read
   { roleId: 3, permissionId: 3 }, // activity.update

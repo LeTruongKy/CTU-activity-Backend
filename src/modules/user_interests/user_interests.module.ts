@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+﻿import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserInterestsService } from './user_interests.service';
 import { UserInterestsController } from './user_interests.controller';

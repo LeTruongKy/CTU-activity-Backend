@@ -1,4 +1,4 @@
-// NOTE: Password hashing will be done by DatabasesService during initialization
+﻿// NOTE: Password hashing will be done by DatabasesService during initialization
 // All users will be created with default password from INIT_PASSWORD env variable
 export const INIT_USERS = [
   // Admin user

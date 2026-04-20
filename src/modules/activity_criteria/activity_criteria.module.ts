@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+﻿import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ActivityCriteriaService } from './activity_criteria.service';
 import { ActivityCriteriaController } from './activity_criteria.controller';

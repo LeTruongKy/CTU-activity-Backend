@@ -1,4 +1,4 @@
-/**
+﻿/**
  * DTO for SV5T Criteria Progress Response
  * Shows status of individual criteria (MET/NOT_MET/IN_PROGRESS)
  */

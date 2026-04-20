@@ -1,4 +1,4 @@
-import {
+﻿import {
   IsString,
   IsNumber,
   IsOptional,
@@ -11,7 +11,7 @@ import {
   IsArray,
   IsBoolean,
 } from 'class-validator';
-import { Type } from 'class-transformer';
+import { Type, Transform } from 'class-transformer';
 
 export class CreateActivityDto {
   @IsString()
@@ -77,6 +77,10 @@ export class CreateActivityDto {
   @IsOptional()
   pointsValue?: number;
 
+  @Transform(({ value }) => {
+    if (!value) return undefined;
+    return Array.isArray(value) ? value : [value];
+  })
   @Type(() => Number)
   @IsArray()
   @IsInt({ each: true })
@@ -84,6 +88,10 @@ export class CreateActivityDto {
   @IsOptional()
   criteriaIds?: number[];
 
+  @Transform(({ value }) => {
+    if (!value) return undefined;
+    return Array.isArray(value) ? value : [value];
+  })
   @Type(() => Number)
   @IsArray()
   @IsInt({ each: true })
